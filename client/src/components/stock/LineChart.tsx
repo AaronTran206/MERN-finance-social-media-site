@@ -95,7 +95,10 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
       },
 
       scales: {
-        x: gridOptions,
+        x: {
+          ...gridOptions,
+          display: false,
+        },
         y: {
           ...gridOptions,
           type: "linear" as const,
