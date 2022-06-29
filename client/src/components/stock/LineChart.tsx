@@ -38,6 +38,10 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
     //chartJS options
     const options = {
       responsive: true,
+      interaction: {
+        mode: "index" as const,
+        intersect: false,
+      },
       stacked: false,
       plugins: {
         title: {
@@ -45,9 +49,7 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
           text: `$${stockData?.symbol}`,
           color: "rgb(224,224,224)",
         },
-        interaction: {
-          mode: "point",
-        },
+
         tooltip: {
           intersect: true,
           callbacks: {
