@@ -23,6 +23,10 @@ const VolumeChart: React.FC<{ stockData: StockData | null }> = ({
 }) => {
   const options = {
     responsive: true,
+    interaction: {
+      mode: "index" as const,
+      intersect: false,
+    },
     plugins: {
       title: {
         display: true,
