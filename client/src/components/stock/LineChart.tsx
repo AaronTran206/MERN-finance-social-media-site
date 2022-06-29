@@ -11,6 +11,7 @@ import {
 } from "chart.js"
 import { Line } from "react-chartjs-2"
 import { StockData } from "./Stock"
+import zoomPlugin from "chartjs-plugin-zoom"
 
 //Chart will use these features
 Chart.register(
@@ -20,7 +21,8 @@ Chart.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  zoomPlugin
 )
 
 export const gridOptions = {
@@ -36,7 +38,7 @@ const pctChangeTitle = `% Change from Prev. Day`
 const LineChart: React.FC<{ stockData: StockData | null }> = memo(
   ({ stockData }) => {
     //chartJS options
-    const options = {
+    const options: any = {
       responsive: true,
       interaction: {
         mode: "index" as const,
@@ -48,6 +50,27 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
           display: true,
           text: `$${stockData?.symbol}`,
           color: "rgb(224,224,224)",
+        },
+        //zoom plugin
+        zoom: {
+          zoom: {
+            wheel: {
+              enabled: true,
+            },
+            drag: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true,
+            },
+            mode: "x",
+            speed: 70,
+          },
+          pan: {
+            enabled: true,
+            mode: "x",
+            speed: 70,
+          },
         },
 
         tooltip: {
@@ -90,7 +113,7 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
           radius: 1,
         },
         line: {
-          borderWidth: 1,
+          borderWidth: 1.5,
         },
       },
 
@@ -132,18 +155,28 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
       labels,
       datasets: [
         {
-          label: adjCloseTitle,
-          data: stockData?.historical?.map((ele) => ele.adjClose)!,
-          borderColor: "rgb(50,205,50)",
-          backgroundColor: "rgb(50,205,50, 0.5)",
-          yAxisID: "y",
-        },
-        {
           label: pctChangeTitle,
           data: stockData?.historical?.map((ele) => ele.changePercent)!,
-          borderColor: "rgb(50, 168, 147)",
-          backgroundColor: "rgb(50, 168, 147, 0.5)",
+          borderColor: "rgb(50, 168, 147, 0.8)",
+          backgroundColor: "rgb(50, 168, 147, 0.4)",
           yAxisID: "y1",
+        },
+        {
+          label: adjCloseTitle,
+          data: stockData?.historical?.map((ele) => ele.adjClose)!,
+          yAxisID: "y",
+          borderColor: "rgb(89, 89, 89)",
+          backgroundColor: "rgb(89, 89, 89,0.5)",
+          segment: {
+            borderColor: (ctx: any) =>
+              ctx.p1.parsed.y <= ctx.p0.parsed.y
+                ? "rgb(250,50,50)"
+                : "rgb(50,205,50)",
+            backgroundColor: (ctx: any) =>
+              ctx.p1.parsed.y <= ctx.p0.parsed.y
+                ? "rgb(250,50,50,0.5)"
+                : "rgb(50,205,50, 0.5)",
+          },
         },
       ],
     }

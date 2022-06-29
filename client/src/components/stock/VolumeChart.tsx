@@ -11,9 +11,18 @@ import {
 import { Bar } from "react-chartjs-2"
 import { StockData } from "./Stock"
 import { gridOptions } from "./LineChart"
+import zoomPlugin from "chartjs-plugin-zoom"
 
 //ChartJS will use these features
-Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  zoomPlugin
+)
 
 const volumeTitle = `Daily Volume`
 const vwapTtitle = `VWAP`
@@ -21,7 +30,7 @@ const vwapTtitle = `VWAP`
 const VolumeChart: React.FC<{ stockData: StockData | null }> = ({
   stockData,
 }) => {
-  const options = {
+  const options: any = {
     responsive: true,
     interaction: {
       mode: "index" as const,
@@ -31,6 +40,27 @@ const VolumeChart: React.FC<{ stockData: StockData | null }> = ({
       title: {
         display: true,
         text: `$${stockData?.symbol} Daily Volume`,
+      },
+      //zoom plugin
+      zoom: {
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          drag: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true,
+          },
+          mode: "x",
+          speed: 70,
+        },
+        pan: {
+          enabled: true,
+          mode: "x",
+          speed: 70,
+        },
       },
     },
     scales: {
