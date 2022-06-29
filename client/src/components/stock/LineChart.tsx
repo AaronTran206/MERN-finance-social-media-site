@@ -51,7 +51,6 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
         },
 
         tooltip: {
-          intersect: true,
           callbacks: {
             label: function (context: any) {
               let label = context.dataset.label || ""
