@@ -42,7 +42,6 @@ const Stock: React.FC<{}> = () => {
   if (stockData === null || ratingData === null || finData === null)
     return (
       <Container
-        maxWidth="lg"
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -60,27 +59,26 @@ const Stock: React.FC<{}> = () => {
       style={{
         backgroundColor: "black",
       }}
-      maxWidth="lg"
     >
-      <Grid container sx={{ p: 2 }}>
-        <Grid item sm={12} sx={{ my: 1 }}>
+      <Grid container>
+        <Grid item xs={12} sx={{ py: 1 }}>
           <LineChart stockData={stockData} />
         </Grid>
-        <Grid item sm={12} sx={{ my: 1 }}>
+        <Grid item xs={12} sx={{ py: 1 }}>
           <VolumeChart stockData={stockData} />
         </Grid>
-        <Grid item sm={12} sx={{ m: 2, display: "flex" }}>
-          <Grid item sm={12} md={4} sx={{ m: 5 }}>
+        <Grid container direction="row">
+          <Grid item xs={12} md={4}>
             <FinancialsChart finData={finData[2]} />
           </Grid>
-          <Grid item sm={12} md={4} sx={{ m: 5 }}>
+          <Grid item xs={12} md={4}>
             <FinancialsChart finData={finData[1]} />
           </Grid>
-          <Grid item sm={12} md={4} sx={{ m: 5 }}>
+          <Grid item xs={12} md={4}>
             <FinancialsChart finData={finData[0]} />
           </Grid>
         </Grid>
-        <Grid item sm={12} md={5} sx={{ m: 2 }}>
+        <Grid item xs={12} md={5} sx={{ p: 2 }}>
           <RatingChart ratingData={ratingData} />
         </Grid>
       </Grid>

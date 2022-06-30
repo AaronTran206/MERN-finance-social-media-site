@@ -46,6 +46,11 @@ const FinancialsChart: React.FC<{ finData: FinData }> = memo(({ finData }) => {
         },
       },
     },
+    scales: {
+      x: {
+        display: false,
+      },
+    },
   }
 
   //grab data points of interest from finData object
