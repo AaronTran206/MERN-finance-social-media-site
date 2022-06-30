@@ -10,7 +10,7 @@ import {
   Legend,
 } from "chart.js"
 import { Line } from "react-chartjs-2"
-import { StockData } from "./Stock"
+import { StockData } from "../../utils/interfaces"
 import zoomPlugin from "chartjs-plugin-zoom"
 
 //Chart will use these features
@@ -120,7 +120,6 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
       scales: {
         x: {
           ...gridOptions,
-          display: false,
         },
         y: {
           ...gridOptions,
