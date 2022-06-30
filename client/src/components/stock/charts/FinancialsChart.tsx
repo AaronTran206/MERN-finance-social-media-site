@@ -33,7 +33,7 @@ const FinancialsChart: React.FC<{ finData: FinData }> = memo(({ finData }) => {
       },
       title: {
         display: true,
-        text: `$${finData?.symbol} Visual Comparative Financials`,
+        text: `${finData?.date.slice(0, 4)}`,
       },
       tooltip: {
         callbacks: {
