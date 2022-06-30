@@ -15,16 +15,18 @@ Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip)
 
 const FinancialsChart: React.FC<{ finData: FinData }> = memo(({ finData }) => {
   const options: any = {
+    responsive: true,
     indexAxis: "y" as const,
+    interaction: {
+      mode: "y",
+      intersect: false,
+    },
     elements: {
       bar: {
         borderWidth: 2,
-        hitRadius: 50,
-        hoverRadius: 50,
-        radius: 50,
+        borderRadius: 5,
       },
     },
-    responsive: true,
     plugins: {
       legend: {
         display: false,
