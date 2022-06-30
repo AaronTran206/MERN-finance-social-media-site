@@ -25,7 +25,7 @@ Chart.register(
   zoomPlugin
 )
 
-export const gridOptions = {
+const gridOptions = {
   grid: {
     borderWidth: 2,
     color: "rgb(50,50,50, 0.25)",
@@ -49,7 +49,6 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
         title: {
           display: true,
           text: `$${stockData?.symbol}`,
-          color: "rgb(224,224,224)",
         },
         //zoom plugin
         zoom: {

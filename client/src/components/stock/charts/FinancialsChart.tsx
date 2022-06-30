@@ -12,6 +12,13 @@ import { FinData } from "../../utils/interfaces"
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip)
 
+const gridOptions = {
+  grid: {
+    borderWidth: 2,
+    color: "rgb(50,50,50, 0.25)",
+  },
+}
+
 const FinancialsChart: React.FC<{ finData: FinData }> = memo(({ finData }) => {
   const options: any = {
     responsive: true,
@@ -47,7 +54,10 @@ const FinancialsChart: React.FC<{ finData: FinData }> = memo(({ finData }) => {
     },
     scales: {
       x: {
-        display: false,
+        ...gridOptions,
+      },
+      y: {
+        ...gridOptions,
       },
     },
   }

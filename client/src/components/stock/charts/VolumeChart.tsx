@@ -10,7 +10,6 @@ import {
 } from "chart.js"
 import { Bar } from "react-chartjs-2"
 import { StockData } from "../../utils/interfaces"
-import { gridOptions } from "./LineChart"
 import zoomPlugin from "chartjs-plugin-zoom"
 
 //ChartJS will use these features
@@ -23,6 +22,13 @@ Chart.register(
   Legend,
   zoomPlugin
 )
+
+const gridOptions = {
+  grid: {
+    borderWidth: 2,
+    color: "rgb(50,50,50, 0.25)",
+  },
+}
 
 const volumeTitle = `Daily Volume`
 const vwapTtitle = `VWAP`

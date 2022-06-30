@@ -57,8 +57,7 @@ const RatingChart: React.FC<{ ratingData: RatingData }> = memo(
           label: "Rating",
           data: [ratingData?.ratingScore, 5 - ratingData?.ratingScore],
           backgroundColor: ["rgb(50,205,50)", "rgb(89, 89, 89)"],
-          borderColor: "black",
-          borderWidth: 1,
+          borderWidth: 0,
         },
       ],
     }
