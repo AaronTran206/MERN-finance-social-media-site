@@ -43,7 +43,7 @@ const Stock: React.FC<{}> = () => {
       style={{
         backgroundColor: "black",
       }}
-      maxWidth="xl"
+      maxWidth="lg"
     >
       <Grid container sx={{ p: 2 }}>
         <Grid item xs={12} sx={{ my: 1 }}>
