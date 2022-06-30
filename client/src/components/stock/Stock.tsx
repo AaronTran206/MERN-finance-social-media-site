@@ -50,6 +50,7 @@ const Stock: React.FC<{}> = () => {
     })
   }, [])
 
+  //loading symbol while the api fetches data and is set to state data
   if (stockData === null || ratingData === null || finData === null)
     return (
       <Container
@@ -64,6 +65,7 @@ const Stock: React.FC<{}> = () => {
       </Container>
     )
 
+  //error message if one of the api calls fails
   if (
     stockData?.symbol === undefined ||
     ratingData?.symbol === undefined ||
