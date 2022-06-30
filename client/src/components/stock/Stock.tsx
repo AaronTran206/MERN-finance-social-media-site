@@ -1,17 +1,21 @@
+//packages and utils
 import React, { useEffect, useState } from "react"
 import { fetchHistoricalPrice } from "../utils/api"
+import { StockData, RatingData, FinData } from "../utils/interfaces"
+import CircularProgress from "@mui/material/CircularProgress"
+import { Container, Grid, Box } from "@mui/material"
+
+//components
 import LineChart from "./charts/LineChart"
 import VolumeChart from "./charts/VolumeChart"
-import { Container, Grid, Box } from "@mui/material"
-import { StockData } from "../utils/interfaces"
 import RatingChart from "./charts/RatingChart"
 import FinancialsChart from "./charts/FinancialsChart"
-import CircularProgress from "@mui/material/CircularProgress"
+import OtherFinancials from "./charts/OtherFinancials"
 
 const Stock: React.FC<{}> = () => {
   const [stockData, setStockData] = useState<StockData | null>(null)
-  const [ratingData, setRatingData] = useState<any>(null)
-  const [finData, setFinData] = useState<any>(null)
+  const [ratingData, setRatingData] = useState<RatingData | null>(null)
+  const [finData, setFinData] = useState<FinData[] | null>(null)
   const ticker = "gme"
 
   useEffect(() => {
@@ -78,8 +82,13 @@ const Stock: React.FC<{}> = () => {
             <FinancialsChart finData={finData[0]} />
           </Grid>
         </Grid>
-        <Grid item xs={12} md={5} sx={{ p: 2 }}>
-          <RatingChart ratingData={ratingData} />
+        <Grid container direction="row">
+          <Grid item xs={12} md={5} sx={{ m: 3 }}>
+            <RatingChart ratingData={ratingData} />
+          </Grid>
+          <Grid item xs={12} md={5} sx={{ m: 3 }}>
+            <OtherFinancials finDataArr={finData.slice(0, 3)} />
+          </Grid>
         </Grid>
       </Grid>
     </Container>

@@ -9,7 +9,6 @@ import {
 } from "chart.js"
 import { Bar } from "react-chartjs-2"
 import { FinData } from "../../utils/interfaces"
-import { border } from "@mui/system"
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip)
 
@@ -33,7 +32,7 @@ const FinancialsChart: React.FC<{ finData: FinData }> = memo(({ finData }) => {
       },
       title: {
         display: true,
-        text: `${finData?.date.slice(0, 4)}`,
+        text: finData?.calendarYear,
       },
       tooltip: {
         callbacks: {
@@ -117,7 +116,6 @@ const FinancialsChart: React.FC<{ finData: FinData }> = memo(({ finData }) => {
         data: chartData,
         backgroundColor: backgroundColors,
         borderColors: borderColors,
-        pointHitRadius: 300,
       },
     ],
   }
