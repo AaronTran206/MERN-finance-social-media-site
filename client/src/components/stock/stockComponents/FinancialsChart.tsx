@@ -9,6 +9,8 @@ import {
 } from "chart.js"
 import { Bar } from "react-chartjs-2"
 import { FinData } from "../../utils/interfaces"
+import Loading from "../../loading/Loading"
+import { Link } from "@mui/material"
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip)
 
@@ -130,7 +132,29 @@ const FinancialsChart: React.FC<{ finData: FinData }> = memo(({ finData }) => {
     ],
   }
 
-  return <Bar options={options} data={data} height={50} width={50} />
+  if (finData === null) return <Loading remSize={12} />
+
+  return (
+    <>
+      <Bar options={options} data={data} height={50} width={50} />
+      <Link
+        color="primary"
+        underline="none"
+        variant="subtitle2"
+        rel="noreferrer"
+        target="_blank"
+        href={`${finData.finalLink}`}
+        sx={{
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+          margin: "1.2rem 0rem",
+        }}
+      >
+        {`${finData.calendarYear} Form 10-K`}
+      </Link>
+    </>
+  )
 })
 
 export default FinancialsChart

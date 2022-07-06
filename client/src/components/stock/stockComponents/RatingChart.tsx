@@ -4,6 +4,7 @@ import { Doughnut } from "react-chartjs-2"
 import { RatingData } from "../../utils/interfaces"
 import CircularProgress from "@mui/material/CircularProgress"
 import { Box } from "@mui/material"
+import Loading from "../../loading/Loading"
 
 Chart.register(ArcElement, Tooltip, Legend)
 
@@ -65,16 +66,7 @@ const RatingChart: React.FC<{ ratingData: RatingData }> = memo(
     //ensure that the doughnut chart loads when all needed data is available
     if (ratingData?.rating === undefined)
       return (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignContent: "center",
-            padding: "3rem 0rem",
-          }}
-        >
-          <CircularProgress size={"12rem"} />
-        </Box>
+        <Loading remSize={12}/>
       )
 
     return <Doughnut data={data} options={options} plugins={plugins} />

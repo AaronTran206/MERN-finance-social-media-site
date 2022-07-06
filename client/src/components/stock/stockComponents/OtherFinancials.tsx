@@ -9,6 +9,7 @@ import {
 } from "chart.js"
 import { Bar } from "react-chartjs-2"
 import { FinData } from "../../utils/interfaces"
+import Loading from '../../loading/Loading'
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip)
 
@@ -84,6 +85,8 @@ const OtherFinancials: React.FC<{ finDataArr: FinData[] }> = memo(
         },
       ],
     }
+
+    if (finDataArr === null) return <Loading remSize={12}/>
 
     return <Bar options={options} data={data} />
   }

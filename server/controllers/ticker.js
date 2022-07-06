@@ -7,22 +7,27 @@ export const fetchHistoricalPrice = async (req, res) => {
 
   try {
     //fetch data from api
-    const [historicalStockData, ratingData, finData] = await Promise.all([
-      fetch(
-        `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?apikey=${process.env.FIN_API_KEY}`
-      ).then((res) => res.json()),
-      fetch(
-        `https://financialmodelingprep.com/api/v3/rating/${ticker}?apikey=${process.env.FIN_API_KEY}`
-      ).then((res) => res.json()),
-      fetch(
-        `https://financialmodelingprep.com/api/v3/income-statement/${ticker}?limit=120&apikey=${process.env.FIN_API_KEY}`
-      ).then((res) => res.json()),
-    ])
+    const [historicalStockData, ratingData, finData, marketCapData] =
+      await Promise.all([
+        fetch(
+          `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?apikey=${process.env.FIN_API_KEY}`
+        ).then((res) => res.json()),
+        fetch(
+          `https://financialmodelingprep.com/api/v3/rating/${ticker}?apikey=${process.env.FIN_API_KEY}`
+        ).then((res) => res.json()),
+        fetch(
+          `https://financialmodelingprep.com/api/v3/income-statement/${ticker}?limit=120&apikey=${process.env.FIN_API_KEY}`
+        ).then((res) => res.json()),
+        fetch(
+          `https://financialmodelingprep.com/api/v3/enterprise-values/${ticker}?limit=40&apikey=${process.env.FIN_API_KEY}`
+        ).then((res) => res.json()),
+      ])
 
     const data = {
       stock: historicalStockData,
       rating: ratingData,
       fin: finData,
+      mktData: marketCapData,
     }
 
     //return success code and data to frontend

@@ -1,17 +1,20 @@
 //packages and utils
 import React, { useEffect, useState } from "react"
 import { fetchHistoricalPrice } from "../utils/api"
-import { StockData, RatingData, FinData } from "../utils/interfaces"
+import { StockData, RatingData, FinData, mktCapData } from "../utils/interfaces"
 import CircularProgress from "@mui/material/CircularProgress"
 import { Container, Grid, Box, Typography } from "@mui/material"
 import ErrorIcon from "@mui/icons-material/Error"
 
 //components
-import LineChart from "./charts/LineChart"
-import VolumeChart from "./charts/VolumeChart"
-import RatingChart from "./charts/RatingChart"
-import FinancialsChart from "./charts/FinancialsChart"
-import OtherFinancials from "./charts/OtherFinancials"
+import LineChart from "./stockComponents/LineChart"
+import VolumeChart from "./stockComponents/VolumeChart"
+import RatingChart from "./stockComponents/RatingChart"
+import FinancialsChart from "./stockComponents/FinancialsChart"
+import OtherFinancials from "./stockComponents/OtherFinancials"
+import MarketCapData from "./stockComponents/MarketCapData"
+import Loading from "../loading/Loading"
+import General from "./stockComponents/General"
 
 const justifyAndCenter = {
   display: "flex",
@@ -23,6 +26,7 @@ const Stock: React.FC<{}> = () => {
   const [stockData, setStockData] = useState<StockData | null>(null)
   const [ratingData, setRatingData] = useState<RatingData | null>(null)
   const [finData, setFinData] = useState<FinData[] | null>(null)
+  const [mktCapData, setMktCapData] = useState<mktCapData | null>(null)
   const ticker = "aapl"
 
   useEffect(() => {
@@ -47,23 +51,13 @@ const Stock: React.FC<{}> = () => {
       setStockData(sortedRes)
       setRatingData(res.data.rating[0])
       setFinData(res.data.fin)
+      setMktCapData(res.data.mktData[0])
     })
   }, [])
 
   //loading symbol while the api fetches data and is set to state data
   if (stockData === null || ratingData === null || finData === null)
-    return (
-      <Container
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignContent: "center",
-          padding: "3rem 0rem",
-        }}
-      >
-        <CircularProgress size={"20rem"} />
-      </Container>
-    )
+    return <Loading remSize={20} />
 
   //error message if one of the api calls fails
   if (
@@ -87,6 +81,9 @@ const Stock: React.FC<{}> = () => {
   return (
     <Container>
       <Grid container>
+        <Grid item md={12} sx={{ py: 1 }}>
+          <General mktCapData={mktCapData} finData={finData[0]} />
+        </Grid>
         <Grid item xs={12} sx={{ py: 1 }}>
           <LineChart stockData={stockData} />
         </Grid>
@@ -110,6 +107,7 @@ const Stock: React.FC<{}> = () => {
           </Grid>
           <Grid item xs={12} md={5} sx={{ m: 3 }}>
             <OtherFinancials finDataArr={finData.slice(0, 3)} />
+            <MarketCapData mktCapData={mktCapData} />
           </Grid>
         </Grid>
       </Grid>

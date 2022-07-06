@@ -80,3 +80,14 @@ export interface FinData {
   link: string
   finalLink: string
 }
+
+export interface mktCapData {
+  symbol: string
+  date: string
+  stockPrice: number
+  numberOfShares: number
+  marketCapitalization: number
+  minusCashAndCashEquivalents: number
+  addTotalDebt: number
+  enterpriseValue: number
+}

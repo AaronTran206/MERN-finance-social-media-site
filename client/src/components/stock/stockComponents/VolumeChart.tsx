@@ -11,6 +11,7 @@ import {
 import { Bar } from "react-chartjs-2"
 import { StockData } from "../../utils/interfaces"
 import zoomPlugin from "chartjs-plugin-zoom"
+import Loading from "../../loading/Loading"
 
 //ChartJS will use these features
 Chart.register(
@@ -106,6 +107,8 @@ const VolumeChart: React.FC<{ stockData: StockData | null }> = memo(
         },
       ],
     }
+
+    if (stockData === null) return <Loading remSize={12} />
 
     return <Bar options={options} data={chartData} />
   }

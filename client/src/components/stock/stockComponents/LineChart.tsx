@@ -12,6 +12,7 @@ import {
 import { Line } from "react-chartjs-2"
 import { StockData } from "../../utils/interfaces"
 import zoomPlugin from "chartjs-plugin-zoom"
+import Loading from '../../loading/Loading'
 
 //Chart will use these features
 Chart.register(
@@ -178,6 +179,8 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
         },
       ],
     }
+
+    if (stockData === null) return <Loading remSize={12}/>
 
     return <Line options={options} data={chartData} />
   }
