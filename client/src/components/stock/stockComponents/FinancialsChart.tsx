@@ -10,7 +10,7 @@ import {
 import { Bar } from "react-chartjs-2"
 import { FinData } from "../../utils/interfaces"
 import Loading from "../../loading/Loading"
-import { Link } from "@mui/material"
+import { Link, Grid, Typography } from "@mui/material"
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip)
 
@@ -135,25 +135,30 @@ const FinancialsChart: React.FC<{ finData: FinData }> = memo(({ finData }) => {
   if (finData === null) return <Loading remSize={12} />
 
   return (
-    <>
+    <Grid container>
       <Bar options={options} data={data} height={50} width={50} />
-      <Link
-        color="primary"
-        underline="none"
-        variant="subtitle2"
-        rel="noreferrer"
-        target="_blank"
-        href={`${finData.finalLink}`}
+      <Grid
+        item
+        md={12}
         sx={{
           display: "flex",
-          alignContent: "center",
           justifyContent: "center",
-          margin: "1.2rem 0rem",
+          alignContent: "center",
+          marginTop: "1.2rem",
         }}
       >
-        {`${finData.calendarYear} Form 10-K`}
-      </Link>
-    </>
+        <Link
+          color="primary"
+          underline="none"
+          variant="subtitle2"
+          rel="noreferrer"
+          target="_blank"
+          href={`${finData.finalLink}`}
+        >
+          <Typography>{`${finData.calendarYear} Form 10-K`}</Typography>
+        </Link>
+      </Grid>
+    </Grid>
   )
 })
 
