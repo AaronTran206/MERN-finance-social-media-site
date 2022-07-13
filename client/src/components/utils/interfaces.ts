@@ -15,9 +15,9 @@ interface HistoricalData {
   vwap: number
 }
 
-export interface StockData {
-  historical: HistoricalData[]
-  symbol: string
+export interface MarketData {
+  historical: HistoricalData[] | undefined
+  symbol: string | undefined
 }
 
 export interface RatingData {
@@ -81,7 +81,7 @@ export interface FinData {
   finalLink: string
 }
 
-export interface mktCapData {
+export interface MktCapData {
   symbol: string
   date: string
   stockPrice: number

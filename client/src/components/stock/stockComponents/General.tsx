@@ -1,10 +1,10 @@
 import { Grid, Typography, Link } from "@mui/material"
 import React, { memo } from "react"
 import Loading from "../../loading/Loading"
-import { FinData, mktCapData } from "../../utils/interfaces"
+import { FinData, MktCapData } from "../../utils/interfaces"
 
 const General: React.FC<{
-  mktCapData: mktCapData | null
+  mktCapData: MktCapData | null
   finData: FinData | null
 }> = memo(({ mktCapData, finData }) => {
   if (mktCapData === null || finData === null) return <Loading remSize={12} />

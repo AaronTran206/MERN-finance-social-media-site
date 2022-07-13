@@ -10,9 +10,9 @@ import {
   Legend,
 } from "chart.js"
 import { Line } from "react-chartjs-2"
-import { StockData } from "../../utils/interfaces"
+import { MarketData } from "../../utils/interfaces"
 import zoomPlugin from "chartjs-plugin-zoom"
-import Loading from '../../loading/Loading'
+import Loading from "../../loading/Loading"
 
 //Chart will use these features
 Chart.register(
@@ -36,8 +36,8 @@ const gridOptions = {
 const adjCloseTitle = `Daily Adjusted Close`
 const pctChangeTitle = `% Change from Prev. Day`
 
-const LineChart: React.FC<{ stockData: StockData | null }> = memo(
-  ({ stockData }) => {
+const LineChart: React.FC<{ marketData: MarketData | null }> = memo(
+  ({ marketData }) => {
     //chartJS options
     const options: any = {
       responsive: true,
@@ -49,7 +49,7 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
       plugins: {
         title: {
           display: true,
-          text: `$${stockData?.symbol}`,
+          text: `$${marketData?.symbol}`,
         },
         //zoom plugin
         zoom: {
@@ -148,21 +148,21 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
       },
     }
     //x-axis labels
-    const labels = stockData?.historical?.map((ele) => ele.date)
+    const labels = marketData?.historical?.map((ele) => ele.date)
 
     const chartData = {
       labels,
       datasets: [
         {
           label: pctChangeTitle,
-          data: stockData?.historical?.map((ele) => ele.changePercent)!,
+          data: marketData?.historical?.map((ele) => ele.changePercent)!,
           borderColor: "rgb(50, 168, 147, 0.8)",
           backgroundColor: "rgb(50, 168, 147, 0.4)",
           yAxisID: "y1",
         },
         {
           label: adjCloseTitle,
-          data: stockData?.historical?.map((ele) => ele.adjClose)!,
+          data: marketData?.historical?.map((ele) => ele.adjClose)!,
           yAxisID: "y",
           borderColor: "rgb(89, 89, 89)",
           backgroundColor: "rgb(89, 89, 89,0.5)",
@@ -180,7 +180,7 @@ const LineChart: React.FC<{ stockData: StockData | null }> = memo(
       ],
     }
 
-    if (stockData === null) return <Loading remSize={12}/>
+    if (marketData === null) return <Loading remSize={12} />
 
     return <Line options={options} data={chartData} />
   }

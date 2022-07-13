@@ -9,7 +9,7 @@ import {
   Legend,
 } from "chart.js"
 import { Bar } from "react-chartjs-2"
-import { StockData } from "../../utils/interfaces"
+import { MarketData } from "../../utils/interfaces"
 import zoomPlugin from "chartjs-plugin-zoom"
 import Loading from "../../loading/Loading"
 
@@ -34,8 +34,8 @@ const gridOptions = {
 const volumeTitle = `Daily Volume`
 const vwapTtitle = `VWAP`
 
-const VolumeChart: React.FC<{ stockData: StockData | null }> = memo(
-  ({ stockData }) => {
+const VolumeChart: React.FC<{ marketData: MarketData | null }> = memo(
+  ({ marketData }) => {
     const options: any = {
       responsive: true,
       interaction: {
@@ -45,7 +45,7 @@ const VolumeChart: React.FC<{ stockData: StockData | null }> = memo(
       plugins: {
         title: {
           display: true,
-          text: `$${stockData?.symbol} Daily Volume`,
+          text: `$${marketData?.symbol} Daily Volume`,
         },
         //zoom plugin
         zoom: {
@@ -88,27 +88,27 @@ const VolumeChart: React.FC<{ stockData: StockData | null }> = memo(
     }
 
     //x-axis labels
-    const labels = stockData?.historical?.map((ele) => ele.date)
+    const labels = marketData?.historical?.map((ele) => ele.date)
 
     const chartData = {
       labels,
       datasets: [
         {
           label: volumeTitle,
-          data: stockData?.historical?.map((ele) => ele.volume)!,
+          data: marketData?.historical?.map((ele) => ele.volume)!,
           backgroundColor: "rgb(128, 0, 128)",
           yAxisID: "y",
         },
         {
           label: vwapTtitle,
-          data: stockData?.historical?.map((ele) => ele.vwap)!,
+          data: marketData?.historical?.map((ele) => ele.vwap)!,
           backgroundColor: "rgb(204, 122, 0)",
           yAxisID: "y1",
         },
       ],
     }
 
-    if (stockData === null) return <Loading remSize={12} />
+    if (marketData === null) return <Loading remSize={12} />
 
     return <Bar options={options} data={chartData} />
   }

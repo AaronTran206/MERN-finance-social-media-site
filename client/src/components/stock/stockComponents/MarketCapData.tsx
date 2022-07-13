@@ -1,6 +1,6 @@
 import React, { memo } from "react"
 import { Grid, Card, Paper, Typography } from "@mui/material"
-import { mktCapData } from "../../utils/interfaces"
+import { MktCapData } from "../../utils/interfaces"
 import Loading from "../../loading/Loading"
 
 const MarketCapComponent: React.FC<{
@@ -28,7 +28,7 @@ const MarketCapComponent: React.FC<{
   )
 }
 
-const MarketCapData: React.FC<{ mktCapData: mktCapData | null }> = memo(
+const MarketCapData: React.FC<{ mktCapData: MktCapData | null }> = memo(
   ({ mktCapData }) => {
     if (mktCapData === null) return <Loading remSize={12} />
 

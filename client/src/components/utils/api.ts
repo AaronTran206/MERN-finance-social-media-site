@@ -4,5 +4,5 @@ const API = axios.create({
   baseURL: "http://localhost:8000/",
 })
 
-export const fetchHistoricalPrice = (ticker: string) =>
-  API.get(`/ticker/${ticker}`)
+//go to backend server to fetch api data
+export const fetchFinanceData = (ticker: string) => API.get(`/ticker/${ticker}`)
