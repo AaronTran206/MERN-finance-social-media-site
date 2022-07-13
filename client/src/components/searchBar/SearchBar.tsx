@@ -22,7 +22,7 @@ const SearchBar: React.FC<{}> = () => {
             <TextField
               name="ticker"
               variant="outlined"
-              label="Search for a Ticker"
+              label="Search for a ticker"
               onChange={(e) => setTicker(e.target.value)}
               fullWidth
             />
