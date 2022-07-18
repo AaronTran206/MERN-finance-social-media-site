@@ -91,17 +91,11 @@ const Stock: React.FC<{}> = () => {
         <Grid item xs={12} sx={{ py: 1 }}>
           <VolumeChart marketData={sortedRes} />
         </Grid>
-        <Grid container direction="row">
-          <Grid item xs={12} md={4}>
-            <FinancialsChart finData={stockData?.fin[2]} />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <FinancialsChart finData={stockData?.fin[1]} />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <FinancialsChart finData={stockData?.fin[0]} />
-          </Grid>
+
+        <Grid item md={12}>
+          <FinancialsChart finData={stockData?.fin} />
         </Grid>
+
         <Grid container direction="row">
           <Grid item xs={12} md={5} sx={{ m: 3 }}>
             <RatingChart ratingData={stockData?.rating[0]} />
