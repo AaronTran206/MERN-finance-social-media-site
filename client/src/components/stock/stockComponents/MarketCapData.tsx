@@ -30,7 +30,7 @@ const MarketCapComponent: React.FC<{
 
 const MarketCapData: React.FC<{ mktCapData: MktCapData | null }> = memo(
   ({ mktCapData }) => {
-    if (mktCapData === null) return <Loading remSize={12} />
+    if (mktCapData === null) return <Loading remSize={"12"} />
 
     return (
       <Grid container sx={{ my: 3 }}>

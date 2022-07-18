@@ -1,19 +1,15 @@
 //packages and utils
-import React from "react"
-import {
-  MarketData,
-  RatingData,
-  FinData,
-  MktCapData,
-} from "../utils/interfaces"
-import CircularProgress from "@mui/material/CircularProgress"
+import React, { useEffect } from "react"
 import { Container, Grid, Box, Typography } from "@mui/material"
 import ErrorIcon from "@mui/icons-material/Error"
 import {
   selectStockData,
   selectStockDataStatus,
 } from "../../slices/stockDataSlice"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
+import { useAppDispatch } from "../utils/reduxHooks"
+import { fetchStockData } from "../../slices/stockDataSlice"
+import { useParams } from "react-router-dom"
 
 //components
 import LineChart from "./stockComponents/LineChart"
@@ -36,11 +32,18 @@ const Stock: React.FC<{}> = () => {
   //get data from react store
   const stockData = useSelector(selectStockData)
   const status = useSelector(selectStockDataStatus)
+  const dispatch = useAppDispatch()
+  const { ticker } = useParams()
+
+  useEffect(() => {
+    //fetch data about ticker from insider trading api
+    if (ticker) dispatch(fetchStockData(ticker))
+  }, [ticker, dispatch])
 
   if (!stockData) return null
 
   //loading symbol while the api fetches data and is set to state data
-  if (status === "loading") return <Loading remSize={20} />
+  if (status === "loading") return <Loading remSize={"20"} />
 
   //error message if one of the api calls fails
   if (status === "failed" || stockData?.stock.historical === undefined)

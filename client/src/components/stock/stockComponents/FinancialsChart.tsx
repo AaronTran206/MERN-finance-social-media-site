@@ -132,7 +132,7 @@ const FinancialsChart: React.FC<{ finData: FinData }> = memo(({ finData }) => {
     ],
   }
 
-  if (finData === null) return <Loading remSize={12} />
+  if (finData === null) return <Loading remSize={"12"} />
 
   return (
     <Grid container>

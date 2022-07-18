@@ -5,7 +5,7 @@ import cors from "cors"
 import dotenv from "dotenv"
 
 //routes import
-import tickerRoutes from "./routes/ticker.js"
+import searchRoutes from "./routes/search.js"
 
 //setup
 const app = express()
@@ -16,7 +16,7 @@ app.use(cors())
 app.use(express.json())
 
 //routes
-app.use("/ticker", tickerRoutes)
+app.use("/search", searchRoutes)
 
 //mongoDB Atlas
 const PORT = process.env.PORT || 8000

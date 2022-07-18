@@ -26,7 +26,7 @@ const initialState = {
 
 //calls to api to backend server
 export const fetchStockData = createAsyncThunk(
-  "/ticker/fetchStockData",
+  "/search/fetchStockData",
   async (ticker: string) => {
     try {
       const { data } = await api.fetchFinanceData(ticker)

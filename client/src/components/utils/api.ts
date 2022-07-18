@@ -5,4 +5,4 @@ const API = axios.create({
 })
 
 //go to backend server to fetch api data
-export const fetchFinanceData = (ticker: string) => API.get(`/ticker/${ticker}`)
+export const fetchFinanceData = (ticker: string) => API.get(`/search/${ticker}`)

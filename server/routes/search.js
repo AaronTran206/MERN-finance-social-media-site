@@ -1,5 +1,5 @@
 import express from "express"
-import { fetchHistoricalPrice } from "../controllers/ticker.js"
+import { fetchHistoricalPrice } from "../controllers/search.js"
 
 const router = express.Router()
 

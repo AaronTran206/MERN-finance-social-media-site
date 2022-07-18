@@ -108,7 +108,7 @@ const VolumeChart: React.FC<{ marketData: MarketData | null }> = memo(
       ],
     }
 
-    if (marketData === null) return <Loading remSize={12} />
+    if (marketData === null) return <Loading remSize={"12"} />
 
     return <Bar options={options} data={chartData} />
   }

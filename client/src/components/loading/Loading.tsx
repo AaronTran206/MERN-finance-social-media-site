@@ -2,7 +2,7 @@ import React from "react"
 import { Container } from "@mui/material"
 import CircularProgress from "@mui/material/CircularProgress"
 
-const Loading: React.FC<{ remSize: number }> = ({ remSize }) => {
+const Loading: React.FC<{ remSize: string }> = ({ remSize }) => {
   return (
     <Container
       sx={{
@@ -12,7 +12,7 @@ const Loading: React.FC<{ remSize: number }> = ({ remSize }) => {
         padding: "3rem 0rem",
       }}
     >
-      <CircularProgress size={`${remSize} rem`} />
+      <CircularProgress color="primary" size={`${remSize}rem`} />
     </Container>
   )
 }

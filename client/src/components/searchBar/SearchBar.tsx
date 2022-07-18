@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react"
 import { Paper, TextField, Card, Grid } from "@mui/material"
 import { fetchStockData } from "../../slices/stockDataSlice"
 import { useAppDispatch } from "../utils/reduxHooks"
+import { useNavigate } from "react-router-dom"
 
 const SearchBar: React.FC<{}> = () => {
   const [ticker, setTicker] = useState<string>("")
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const onSubmit = (e: any) => {
     e.preventDefault()
 
-    //fetch data about ticker from insider trading api
-    dispatch(fetchStockData(ticker.trim().toUpperCase()))
+    //navigate to stock component url
+    navigate(`/search/${ticker.trim().toUpperCase()}`)
   }
 
   return (

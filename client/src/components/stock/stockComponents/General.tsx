@@ -7,7 +7,7 @@ const General: React.FC<{
   mktCapData: MktCapData | null
   finData: FinData | null
 }> = memo(({ mktCapData, finData }) => {
-  if (mktCapData === null || finData === null) return <Loading remSize={12} />
+  if (mktCapData === null || finData === null) return <Loading remSize={"12"} />
 
   return (
     <Grid container sx={{ padding: "2rem 0rem 0rem 3rem" }}>

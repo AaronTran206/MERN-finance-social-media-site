@@ -86,7 +86,7 @@ const OtherFinancials: React.FC<{ finDataArr: FinData[] }> = memo(
       ],
     }
 
-    if (finDataArr === null) return <Loading remSize={12}/>
+    if (finDataArr === null) return <Loading remSize={'12'}/>
 
     return <Bar options={options} data={data} />
   }

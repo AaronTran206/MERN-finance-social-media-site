@@ -180,7 +180,7 @@ const LineChart: React.FC<{ marketData: MarketData | null }> = memo(
       ],
     }
 
-    if (marketData === null) return <Loading remSize={12} />
+    if (marketData === null) return <Loading remSize={"12"} />
 
     return <Line options={options} data={chartData} />
   }

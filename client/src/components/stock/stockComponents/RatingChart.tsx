@@ -64,10 +64,7 @@ const RatingChart: React.FC<{ ratingData: RatingData }> = memo(
     }
 
     //ensure that the doughnut chart loads when all needed data is available
-    if (ratingData?.rating === undefined)
-      return (
-        <Loading remSize={12}/>
-      )
+    if (ratingData?.rating === undefined) return <Loading remSize={"12"} />
 
     return <Doughnut data={data} options={options} plugins={plugins} />
   }
