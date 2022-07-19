@@ -1,6 +1,6 @@
 //packages and utils
 import React, { useEffect } from "react"
-import { Container, Grid, Box, Typography } from "@mui/material"
+import { Container, Grid, Typography } from "@mui/material"
 import ErrorIcon from "@mui/icons-material/Error"
 import {
   selectStockData,
@@ -20,7 +20,6 @@ import OtherFinancials from "./stockComponents/OtherFinancials"
 import MarketCapData from "./stockComponents/MarketCapData"
 import Loading from "../loading/Loading"
 import General from "./stockComponents/General"
-import SearchBar from "../searchBar/SearchBar"
 
 const justifyAndCenter = {
   display: "flex",
@@ -37,7 +36,7 @@ const Stock: React.FC<{}> = () => {
 
   useEffect(() => {
     //fetch data about ticker from insider trading api
-    if (ticker) dispatch(fetchStockData(ticker))
+    if (ticker) dispatch(fetchStockData(ticker.toUpperCase()))
   }, [ticker, dispatch])
 
   if (!stockData) return null

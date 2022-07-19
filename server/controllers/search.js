@@ -5,20 +5,14 @@ export const fetchHistoricalPrice = async (req, res) => {
   //grab ticker symbol from frontend request
   const { ticker } = req.params
 
+  console.log(ticker)
+
   try {
     //fetch data from api
-    const historical = `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker.toUpperCase()}?apikey=${
-      process.env.FIN_API_KEY
-    }`
-    const rating = `https://financialmodelingprep.com/api/v3/rating/${ticker.toUpperCase()}?apikey=${
-      process.env.FIN_API_KEY
-    }`
-    const fin = `https://financialmodelingprep.com/api/v3/income-statement/${ticker.toUpperCase()}?limit=120&apikey=${
-      process.env.FIN_API_KEY
-    }`
-    const marketCap = `https://financialmodelingprep.com/api/v3/enterprise-values/${ticker.toUpperCase()}?limit=40&apikey=${
-      process.env.FIN_API_KEY
-    }`
+    const historical = `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?apikey=${process.env.FIN_API_KEY}`
+    const rating = `https://financialmodelingprep.com/api/v3/rating/${ticker}?apikey=${process.env.FIN_API_KEY}`
+    const fin = `https://financialmodelingprep.com/api/v3/income-statement/${ticker}?limit=120&apikey=${process.env.FIN_API_KEY}`
+    const marketCap = `https://financialmodelingprep.com/api/v3/enterprise-values/${ticker}?limit=40&apikey=${process.env.FIN_API_KEY}`
 
     const allDataURLs = [historical, rating, fin, marketCap]
 

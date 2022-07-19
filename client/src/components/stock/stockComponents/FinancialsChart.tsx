@@ -175,8 +175,8 @@ const FinancialsChart: React.FC<{ finData: FinData[] }> = memo(
         {
           label: finData[2]?.calendarYear,
           data: chartData2,
-          backgroundColor: "rgb(78, 50, 168)",
-          borderColors: "rgb(78, 50, 168,0.5)",
+          backgroundColor: "rgb(168, 103, 50)",
+          borderColors: "rgb(168, 103, 50,0.5)",
         },
         {
           label: finData[1]?.calendarYear,
