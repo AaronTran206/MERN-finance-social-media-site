@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 
 //routes import
 import searchRoutes from "./routes/search.js"
+import userRoutes from "./routes/users.js"
 
 //setup
 const app = express()
@@ -17,9 +18,18 @@ app.use(express.json())
 
 //routes
 app.use("/search", searchRoutes)
+app.use("/user", userRoutes)
 
-//mongoDB Atlas
+//server port
 const PORT = process.env.PORT || 8000
 
-//mongoose
-app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+//mongoDB Atlas
+mongoose
+  .connect(process.env.CONNECTION_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() =>
+    app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+  )
+  .catch((err) => console.log(err.message))
