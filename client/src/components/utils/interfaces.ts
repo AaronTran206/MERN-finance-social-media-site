@@ -1,4 +1,4 @@
-//interfaces for stock data
+//Stock data
 interface HistoricalData {
   adjClose: number
   change: number
@@ -90,4 +90,13 @@ export interface MktCapData {
   minusCashAndCashEquivalents: number
   addTotalDebt: number
   enterpriseValue: number
+}
+
+//Auth FormData
+export interface InitialFormState {
+  given_name: string
+  family_name: string
+  email: string
+  password: string
+  confirmPassword: string
 }

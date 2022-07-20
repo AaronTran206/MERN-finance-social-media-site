@@ -9,13 +9,7 @@ import {
   createTheme,
 } from "@mui/material"
 
-import {
-  GoogleLogin,
-  GoogleLoginProps,
-  GoogleLoginResponse,
-  GoogleLoginResponseOffline,
-  //@ts-ignore
-} from "react-google-login"
+import { GoogleLogin, CredentialResponse } from "@react-oauth/google"
 
 //@ts-ignore
 import { decodeToken } from "react-jwt"
@@ -25,19 +19,7 @@ import { useNavigate } from "react-router-dom"
 import { LockOutlined } from "@mui/icons-material"
 import Input from "./Input"
 import useStyles from "./styles"
-
-interface InitialFormState {
-  given_name: string
-  family_name: string
-  email: string
-  password: string
-  confirmPassword: string
-}
-
-interface GoogleSuccess {
-  clientId: string
-  credential: string
-}
+import { InitialFormState } from "../utils/interfaces"
 
 const initialState = {
   given_name: "",
@@ -55,7 +37,7 @@ const Auth: React.FC<{}> = ({}) => {
   const [showPassword, setShowPassword] = useState<Boolean>(false)
   const [formData, setFormData] = useState<InitialFormState>(initialState)
 
-  const classes = useStyles({})
+  const classes = useStyles()
 
   //switch form mode from signed up or not signed up
   const switchMode = () => {
@@ -76,20 +58,18 @@ const Auth: React.FC<{}> = ({}) => {
   const handleSubmit = () => {}
 
   //google login success
-  const googleSuccess = async (
-    res: GoogleLoginResponse | GoogleLoginResponseOffline
-  ) => {
+  const googleSuccess = async (res: CredentialResponse) => {
     //decode the response from Google authentication
     // const decodedToken = await decodeToken(res.credential)
     console.log(res)
 
-    // //dispatch decoded results to redux global state
+    //dispatch decoded results to redux global state
     // dispatch(setAuthSlice({ result: decodedToken, token: res.credential }))
   }
 
   //google login failure
-  const googleFailure = (error: GoogleLoginProps) => {
-    console.log(error)
+  const googleFailure = () => {
+    console.log("Google Login Failed")
   }
 
   return (
@@ -154,13 +134,20 @@ const Auth: React.FC<{}> = ({}) => {
           >
             {isSignedUp ? "Sign In" : "Sign Up"}
           </Button>
-          <GoogleLogin
-            clientId="1047237805781-hg48pcherdr1v5b8dvs56o1q05vullp4.apps.googleusercontent.com"
-            onSuccess={googleSuccess}
-            onFailure={googleFailure}
-            theme="light"
+          <Grid
+            item
+            md={12}
             className={classes.googleButton}
-          />
+            sx={{ marginBottom: theme.spacing(3) }}
+          >
+            <GoogleLogin
+              onSuccess={googleSuccess}
+              onError={googleFailure}
+              theme="outline"
+              size="medium"
+            />
+          </Grid>
+
           <Grid container justifyContent="flex-start">
             <Grid item>
               <Button onClick={switchMode}>

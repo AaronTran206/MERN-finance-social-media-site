@@ -2,7 +2,7 @@ import React from "react"
 import { Typography, Grid } from "@mui/material"
 import Auth from "../auth/Auth"
 
-const Home: React.FC<{}> = ({}) => {
+const Home: React.FC<{}> = () => {
   return (
     <Grid
       container
