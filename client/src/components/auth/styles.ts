@@ -7,7 +7,7 @@ declare module "@mui/styles/defaultTheme" {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(16),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

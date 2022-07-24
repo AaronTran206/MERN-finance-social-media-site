@@ -9,9 +9,6 @@ const Home: React.FC<{}> = () => {
   return (
     <Grid container direction={"row-reverse"} className={classes.container}>
       <Grid item xs={12} md={5}>
-        <Auth />
-      </Grid>
-      <Grid item xs={12} md={5}>
         <Posts />
       </Grid>
     </Grid>

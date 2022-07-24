@@ -74,7 +74,9 @@ const Auth: React.FC<{}> = ({}) => {
 
       //dispatch decoded results to redux global state
       dispatch(setAuthSlice(decodedToken))
-      // dispatch(setAuthSlice({ result: decodedToken, token: res.credential }))
+
+      //navigate to home page
+      navigate("/home")
     }
   }
 
@@ -84,7 +86,7 @@ const Auth: React.FC<{}> = ({}) => {
   }
 
   return (
-    <Container component={"main"} maxWidth="xs">
+    <Container maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
         <Avatar className={classes.avatar}>
           <LockOutlined />

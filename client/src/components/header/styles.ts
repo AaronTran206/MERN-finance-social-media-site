@@ -8,7 +8,7 @@ declare module "@mui/styles/defaultTheme" {
 const useStyles = makeStyles((theme) => ({
   appBar: {
     borderRadius: 5,
-    margin: "30px 0",
+    marginBottom: "30px",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",

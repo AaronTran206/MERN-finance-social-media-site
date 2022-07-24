@@ -31,13 +31,16 @@ const Header: React.FC<{}> = () => {
 
       if (decodedToken.exp * 1000 < new Date().getTime()) logout()
     }
-  }, [location, user])
+  }, [location])
 
   const logout = () => {
+    //logout of google account
     googleLogout()
 
+    //logout of account
     dispatch(setAuthLogoutSlice(null))
 
+    //navigate to landing page
     navigate("/")
   }
 
