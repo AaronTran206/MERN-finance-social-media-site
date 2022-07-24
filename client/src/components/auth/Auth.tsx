@@ -9,17 +9,22 @@ import {
   createTheme,
 } from "@mui/material"
 
-import { GoogleLogin, CredentialResponse } from "@react-oauth/google"
+import {
+  GoogleLogin,
+  CredentialResponse,
+  useGoogleLogin,
+} from "@react-oauth/google"
 
 //@ts-ignore
 import { decodeToken } from "react-jwt"
-import { useDispatch } from "react-redux"
-// import { setAuthSlice, signup, signin } from "../../slices/authSlice.js"
+import { setAuthSlice, signUp, signIn } from "../../slices/authSlice"
+import { useAppDispatch } from "../utils/reduxHooks"
 import { useNavigate } from "react-router-dom"
 import { LockOutlined } from "@mui/icons-material"
 import Input from "./Input"
 import useStyles from "./styles"
 import { InitialFormState } from "../utils/interfaces"
+//@ts-ignore
 
 const initialState = {
   given_name: "",
@@ -36,6 +41,9 @@ const Auth: React.FC<{}> = ({}) => {
   const [isSignedUp, setIsSignedUp] = useState<Boolean>(true)
   const [showPassword, setShowPassword] = useState<Boolean>(false)
   const [formData, setFormData] = useState<InitialFormState>(initialState)
+
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const classes = useStyles()
 
@@ -59,12 +67,15 @@ const Auth: React.FC<{}> = ({}) => {
 
   //google login success
   const googleSuccess = async (res: CredentialResponse) => {
-    //decode the response from Google authentication
-    // const decodedToken = await decodeToken(res.credential)
-    console.log(res)
+    if (res.credential) {
+      //decode the response from Google authentication
+      const decodedToken = await decodeToken(res.credential)
+      console.log(res)
 
-    //dispatch decoded results to redux global state
-    // dispatch(setAuthSlice({ result: decodedToken, token: res.credential }))
+      //dispatch decoded results to redux global state
+      dispatch(setAuthSlice(decodedToken))
+      // dispatch(setAuthSlice({ result: decodedToken, token: res.credential }))
+    }
   }
 
   //google login failure
@@ -79,7 +90,7 @@ const Auth: React.FC<{}> = ({}) => {
           <LockOutlined />
         </Avatar>
         <Typography variant="h5">
-          {isSignedUp ? "Sign In" : "Sign Un"}
+          {isSignedUp ? "Sign In" : "Sign Up"}
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -136,15 +147,17 @@ const Auth: React.FC<{}> = ({}) => {
           </Button>
           <Grid
             item
-            md={12}
-            className={classes.googleButton}
-            sx={{ marginBottom: theme.spacing(3) }}
+            sx={{
+              marginBottom: theme.spacing(3),
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
           >
             <GoogleLogin
               onSuccess={googleSuccess}
               onError={googleFailure}
-              theme="outline"
-              size="medium"
+              cancel_on_tap_outside={true}
             />
           </Grid>
 

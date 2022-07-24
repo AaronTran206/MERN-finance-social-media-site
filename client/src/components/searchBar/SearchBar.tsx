@@ -18,7 +18,7 @@ const SearchBar: React.FC<{}> = () => {
 
   return (
     <Grid container alignItems="center" justifyContent="center">
-      <Grid item md={8}>
+      <Grid item xs={10} md={8}>
         <Paper>
           <form autoComplete="off" noValidate onSubmit={onSubmit}>
             <TextField

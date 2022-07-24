@@ -13,6 +13,9 @@ const root = ReactDOM.createRoot(rootElement)
 const theme = createTheme({
   palette: {
     mode: "dark",
+    secondary: {
+      main: "#A800A8",
+    },
   },
 })
 

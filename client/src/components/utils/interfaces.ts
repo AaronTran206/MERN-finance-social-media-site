@@ -100,3 +100,31 @@ export interface InitialFormState {
   password: string
   confirmPassword: string
 }
+
+//Google Account
+export interface GoogleAccountInfo {
+  aud: string
+  azp: string
+  email: string
+  email_verified: boolean
+  exp: number
+  family_name: string
+  given_name: string
+  iat: number
+  iss: string
+  jti: string
+  name: string
+  nbf: number
+  picture: string
+  sub: string
+}
+
+//Account
+export interface AccountInfo {
+  given_name: string
+  family_name: string
+  email: string
+  password: string
+  confirmPassword: string
+  _id: string
+}

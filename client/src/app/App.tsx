@@ -14,7 +14,6 @@ const App: React.FC<{}> = () => {
       <GoogleOAuthProvider clientId="539291048397-uh153ujaiuf0qkad5rl2o0ah691gausj.apps.googleusercontent.com">
         <Container maxWidth="xl">
           <Header />
-          <SearchBar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search/:ticker" element={<Stock />} />
