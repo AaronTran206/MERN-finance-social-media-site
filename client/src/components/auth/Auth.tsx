@@ -77,6 +77,9 @@ const Auth: React.FC<{}> = ({}) => {
 
       //navigate to home page
       navigate("/home")
+
+      //refresh page
+      navigate(0)
     }
   }
 

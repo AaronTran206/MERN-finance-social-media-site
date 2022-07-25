@@ -23,8 +23,6 @@ const Header: React.FC<{}> = () => {
     //get token from user token
     const token = user?.token
 
-    console.log(user)
-
     //if token is expired, logout
     if (token) {
       const decodedToken: any = decodeToken(token)
@@ -40,22 +38,32 @@ const Header: React.FC<{}> = () => {
     //logout of account
     dispatch(setAuthLogoutSlice(null))
 
-    //navigate to landing page
+    //set user to null
+    setUser(null)
+
+    //navigate to landing
     navigate("/")
+
+    //refresh page
+    navigate(0)
   }
 
-  const navigateHome = () => {
+  const navigateLanding = () => {
+    //navigate back to landing page
     navigate("/")
+
+    //refresh page
+    navigate(0)
   }
 
   return (
-    <AppBar className={classes.appBar}>
+    <AppBar className={classes.appBar} position="static">
       <Toolbar className={classes.toolbar}>
         {user ? (
           <div className={classes.navbar}>
             <Button
               className={classes.button}
-              onClick={navigateHome}
+              onClick={navigateLanding}
               variant="outlined"
               color="primary"
               size="large"
