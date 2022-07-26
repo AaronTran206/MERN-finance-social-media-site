@@ -53,6 +53,22 @@ const Auth: React.FC<{}> = ({}) => {
     setShowPassword(false)
   }
 
+  //navigate to home page
+  const navigateHome = () => {
+    navigate("/home")
+
+    //refresh page
+    // navigate(0)
+  }
+
+  //navigate back to landing page
+  const navigateLandingPage = () => {
+    navigate("/")
+
+    //refresh page
+    // navigate(0)
+  }
+
   //change form field values on key press
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -63,7 +79,24 @@ const Auth: React.FC<{}> = ({}) => {
     setShowPassword(!showPassword)
   }
 
-  const handleSubmit = () => {}
+  const handleSubmit = (e: any) => {
+    //stop form from being removed from page while browser processing event
+    e.preventDefault()
+
+    //if user is already signed up, sign in
+    if (isSignedUp) {
+      dispatch(signIn(formData)).then(() => {
+        navigateHome()
+      })
+    }
+
+    //if user is not signed up yet, sign up
+    if (!isSignedUp) {
+      dispatch(signUp(formData)).then(() => {
+        navigateLandingPage()
+      })
+    }
+  }
 
   //google login success
   const googleSuccess = async (res: CredentialResponse) => {
@@ -75,11 +108,7 @@ const Auth: React.FC<{}> = ({}) => {
       //dispatch decoded results to redux global state
       dispatch(setAuthSlice(decodedToken))
 
-      //navigate to home page
-      navigate("/home")
-
-      //refresh page
-      navigate(0)
+      navigateHome()
     }
   }
 

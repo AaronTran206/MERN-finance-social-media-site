@@ -21,14 +21,12 @@ const initialState = {
 
 //sign in and sign up functions for logging in with own database
 export const signIn = createAsyncThunk(
-  "/signIn",
+  "/signin",
   async (d: InitialFormState) => {
     const formData = d
+
     try {
       const { data } = await api.signIn(formData)
-
-      console.log("auth:", data)
-
       return data
     } catch (err) {
       console.error(err)
@@ -37,9 +35,10 @@ export const signIn = createAsyncThunk(
 )
 
 export const signUp = createAsyncThunk(
-  "/signUp",
+  "/signup",
   async (d: InitialFormState) => {
     const formData = d
+    console.log("signUp:", formData)
     try {
       const { data } = await api.signUp(formData)
 
