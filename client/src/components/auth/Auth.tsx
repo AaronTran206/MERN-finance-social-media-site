@@ -58,7 +58,7 @@ const Auth: React.FC<{}> = ({}) => {
     navigate("/home")
 
     //refresh page
-    // navigate(0)
+    navigate(0)
   }
 
   //navigate back to landing page
@@ -66,7 +66,7 @@ const Auth: React.FC<{}> = ({}) => {
     navigate("/")
 
     //refresh page
-    // navigate(0)
+    navigate(0)
   }
 
   //change form field values on key press
@@ -103,10 +103,9 @@ const Auth: React.FC<{}> = ({}) => {
     if (res.credential) {
       //decode the response from Google authentication
       const decodedToken = await decodeToken(res.credential)
-      console.log(res)
 
       //dispatch decoded results to redux global state
-      dispatch(setAuthSlice(decodedToken))
+      dispatch(setAuthSlice({ result: decodedToken, token: res.credential }))
 
       navigateHome()
     }

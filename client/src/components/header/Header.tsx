@@ -7,6 +7,7 @@ import { setAuthLogoutSlice } from "../../slices/authSlice"
 import useStyles from "./styles"
 import SearchBar from "../searchBar/SearchBar"
 import { decodeToken } from "react-jwt"
+import { stringAvatar } from "../utils/stringToColorFunc"
 
 const Header: React.FC<{}> = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")!))
@@ -56,6 +57,8 @@ const Header: React.FC<{}> = () => {
     navigate(0)
   }
 
+  console.log("User:", user)
+
   return (
     <AppBar className={classes.appBar} position="static">
       <Toolbar className={classes.toolbar}>
@@ -70,7 +73,12 @@ const Header: React.FC<{}> = () => {
             >
               Home
             </Button>
-            <Avatar className={classes.avatar}></Avatar>
+            <Avatar
+              className={classes.avatar}
+              {...stringAvatar(
+                `${user.result?.given_name} ${user.result?.family_name}`
+              )}
+            ></Avatar>
             <SearchBar />
 
             <Button

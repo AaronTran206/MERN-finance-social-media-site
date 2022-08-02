@@ -70,7 +70,7 @@ export const signUp = async (req, res) => {
         email: result.email,
         id: result._id,
       },
-      "jwt",
+      "account",
       {
         expiresIn: "1hr",
       }

@@ -7,6 +7,7 @@ import dotenv from "dotenv"
 //routes import
 import searchRoutes from "./routes/search.js"
 import userRoutes from "./routes/users.js"
+import postsRoutes from "./routes/posts.js"
 
 //setup
 const app = express()
@@ -14,11 +15,12 @@ dotenv.config()
 
 //setup
 app.use(cors())
-app.use(express.json())
+app.use(express.json({ limit: "50mb" }))
 
 //routes
 app.use("/search", searchRoutes)
 app.use("/user", userRoutes)
+app.use("/posts", postsRoutes)
 
 //server port
 const PORT = process.env.PORT || 8000

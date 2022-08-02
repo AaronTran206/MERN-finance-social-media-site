@@ -7,10 +7,7 @@ declare module "@mui/styles/defaultTheme" {
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: theme.spacing(2),
-    display: "flex",
-    justifyContent: "center",
-    alignContent: "center",
+    paddingTop: theme.spacing(2),
   },
 }))
 

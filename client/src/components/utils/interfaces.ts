@@ -128,3 +128,29 @@ export interface AccountInfo {
   confirmPassword: string
   _id: string
 }
+
+//Post Data Form
+export interface PostData {
+  post: string
+  selectedFile: string
+}
+
+//redux Post Data form
+export interface ReduxPostData {
+  post: string
+  selectedFile: string
+  name: string
+}
+
+//Individual Posts from backend
+export interface PostInterface {
+  name: string
+  author: string
+  comments: string[]
+  createdAt: string
+  likes: string[]
+  post: string
+  selectedFile: string
+  __v: number
+  _id: string
+}
