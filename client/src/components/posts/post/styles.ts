@@ -6,12 +6,24 @@ declare module "@mui/styles/defaultTheme" {
 }
 
 const useStyles = makeStyles((theme) => ({
+  cardContainer: {
+    display: "flex",
+    width: "100%",
+  },
   card: {
+    flex: 1,
     marginBottom: theme.spacing(4),
   },
   cardHeader: {
+    position: "relative",
     display: "flex",
     justifyContent: "flex-start",
+  },
+  horizIcon: {
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    color: "gray",
   },
   avatarContainer: {
     paddingRight: theme.spacing(1),
@@ -23,7 +35,17 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
   },
+  cardActionsHoriz: {},
+  cardActionsLikes: {
+    display: "flex",
+    justifyContent: "flex-start",
+  },
+  likeButton: {
+    marginRight: "1rem",
+  },
   dateText: {
+    display: "flex",
+    justifyContent: "flex-end",
     color: "gray",
   },
 }))

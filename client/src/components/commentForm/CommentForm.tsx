@@ -17,26 +17,27 @@ const CommentForm: React.FC<{}> = () => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
 
+  const clearInput = () => {
+    setPostData({
+      post: "",
+      selectedFile: "",
+    })
+  }
+
   const handleSubmit = (e: any) => {
     e.preventDefault()
 
-    //make post
+    if (postData.post === "" && postData.selectedFile === "") return
+
+    //send post data to backend server to create new post
     dispatch(
       makePost({
         ...postData,
         name: `${user?.result.given_name} ${user?.result.family_name}`,
       })
     )
-
-    //clear input fields
-    clear()
-  }
-
-  const clear = () => {
-    setPostData({
-      post: "",
-      selectedFile: "",
-    })
+    //clearInput input fields
+    clearInput()
   }
 
   return (
@@ -56,6 +57,7 @@ const CommentForm: React.FC<{}> = () => {
                 onChange={(e: any) =>
                   setPostData({ ...postData, post: e.target.value })
                 }
+                value={postData.post}
                 fullWidth
                 multiline
               />

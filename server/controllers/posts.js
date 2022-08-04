@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 import Posts from "../models/posts.js"
 
 export const getPosts = async (req, res) => {
@@ -30,4 +31,33 @@ export const makePost = async (req, res) => {
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
+}
+
+export const likePost = async (req, res) => {
+  const { id } = req.params
+
+  if (!req.userId) return res.json({ message: "Log in to like the post" })
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No post with that ID")
+
+  //return post that matches post ID in req parameter
+  const post = await Posts.findById(id)
+
+  //check if user ID is inside the post likes array
+  const index = post.likes.findIndex((id) => id === String(req.userId))
+
+  if (index === -1) {
+    //like post
+    post.likes.push(req.userId)
+  } else {
+    //delete like
+    post.likes = post.likes.filter((id) => id !== String(req.userId))
+  }
+
+  const updatedPost = await Posts.findByIdAndUpdate(id, post, {
+    new: true,
+  })
+
+  res.json(updatedPost)
 }

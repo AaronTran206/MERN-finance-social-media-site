@@ -19,8 +19,8 @@ export const getPosts = createAsyncThunk("/getPosts", async () => {
     const { data } = await api.getPosts()
 
     return data
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    console.error(error)
   }
 })
 
@@ -32,9 +32,21 @@ export const makePost = createAsyncThunk(
       const { data } = await api.makePost(formData)
 
       return data
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }
 )
+
+export const likePost = createAsyncThunk("/likePost", async (id: string) => {
+  try {
+    const { data } = await api.likePost(id)
+
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 export const postsSlice = createSlice({
   name: "posts",
@@ -59,10 +71,21 @@ export const postsSlice = createSlice({
     })
     builder.addCase(makePost.rejected, (state, action) => {
       state.status = "failed"
-      state.posts = [...state.posts, action.payload]
     })
     builder.addCase(makePost.fulfilled, (state, action) => {
       state.status = "success"
+      state.posts = [...state.posts, action.payload]
+    })
+
+    //like post
+    builder.addCase(likePost.rejected, (state, action) => {
+      state.status = "failed"
+    })
+    builder.addCase(likePost.fulfilled, (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      )
     })
   },
 })

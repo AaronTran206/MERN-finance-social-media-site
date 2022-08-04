@@ -24,6 +24,8 @@ export const getPosts = () => API.get(`/posts/getPosts`)
 
 export const makePost = (formData: any) => API.post(`/posts/makePost`, formData)
 
+export const likePost = (id: string) => API.patch(`/posts/${id}/likePost`)
+
 //stockDataSlice
 //go to backend server to fetch api data
 export const fetchFinanceData = (ticker: string) => API.get(`/search/${ticker}`)
