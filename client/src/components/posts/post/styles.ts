@@ -33,7 +33,9 @@ const useStyles = makeStyles((theme) => ({
     top: "5px",
   },
   paper: {
-    padding: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
   },
   cardActionsHoriz: {},
   cardActionsLikes: {

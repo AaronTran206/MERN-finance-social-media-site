@@ -42,7 +42,7 @@ const CommentForm: React.FC<{}> = () => {
 
   return (
     <Container maxWidth="sm">
-      <Paper elevation={1} className={classes.paper}>
+      <Paper elevation={3} className={classes.paper}>
         <form
           className={classes.form}
           autoComplete="off"

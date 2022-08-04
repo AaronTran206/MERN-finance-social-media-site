@@ -94,7 +94,7 @@ const Post: React.FC<{
   return (
     <Grid item xs={12} className={classes.cardContainer}>
       <Card className={classes.card}>
-        <Paper className={classes.paper} elevation={5}>
+        <Paper className={classes.paper} elevation={3}>
           <Grid container direction="row" className={classes.cardHeader}>
             <Grid item className={classes.avatarContainer}>
               <Avatar {...stringAvatar(data.name)}></Avatar>
