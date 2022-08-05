@@ -48,6 +48,19 @@ export const likePost = createAsyncThunk("/likePost", async (id: string) => {
   }
 })
 
+export const deletePost = createAsyncThunk(
+  "/deletePost",
+  async (id: string) => {
+    try {
+      const { data } = await api.deletePost(id)
+
+      return id
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
 export const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -86,6 +99,14 @@ export const postsSlice = createSlice({
       state.posts = state.posts.map((post) =>
         post._id === action.payload._id ? action.payload : post
       )
+    })
+    //delete post
+    builder.addCase(deletePost.rejected, (state, action) => {
+      state.status = "failed"
+    })
+    builder.addCase(deletePost.fulfilled, (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.filter((post) => post._id !== action.payload)
     })
   },
 })

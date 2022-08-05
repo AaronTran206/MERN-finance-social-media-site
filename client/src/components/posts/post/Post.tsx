@@ -1,3 +1,4 @@
+//from libraries
 import React, { useState } from "react"
 import {
   Grid,
@@ -17,24 +18,31 @@ import {
   MenuItem,
 } from "@mui/material"
 import moment from "moment"
+
+//icons
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt"
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt"
 import DeleteIcon from "@mui/icons-material/Delete"
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
+
+//from other files
 import useStyles from "./styles"
 import { PostInterface } from "../../utils/interfaces"
 import { stringAvatar } from "../../utils/stringToColorFunc"
 import { useAppDispatch } from "../../utils/reduxHooks"
-import { likePost } from "../../../slices/postsSlice"
+import { likePost, deletePost } from "../../../slices/postsSlice"
+
+//components
+import DeleteModal from "../deleteModal/DeleteModal"
 
 const Post: React.FC<{
   data: PostInterface
 }> = ({ data }) => {
   const [likes, setLikes] = useState<string[]>(data?.likes)
-
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   //menu setup
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
+  const menuOpen = Boolean(anchorEl)
 
   const user = JSON.parse(localStorage.getItem("profile")!)
   const classes = useStyles()
@@ -52,6 +60,20 @@ const Post: React.FC<{
   }
   const handleCloseMenu = () => {
     setAnchorEl(null)
+  }
+
+  const handleOpenDeleteModal = () => {
+    setDeleteModalOpen(true)
+    handleCloseMenu()
+  }
+
+  const handleCloseDeleteModal = () => {
+    setDeleteModalOpen(false)
+  }
+
+  const handleDelete = async () => {
+    dispatch(deletePost(data._id))
+    setDeleteModalOpen(false)
   }
 
   const handleLike = async () => {
@@ -104,38 +126,48 @@ const Post: React.FC<{
                 <strong>{data.name}</strong>
               </Typography>
             </Grid>
-
-            <Grid item className={classes.horizIcon}>
-              <CardActions>
-                <IconButton
-                  aria-label="more"
-                  id="post-options-button"
-                  aria-controls={open ? "post-options-menu" : undefined}
-                  aria-expanded={open ? "true" : undefined}
-                  aria-haspopup="true"
-                  onClick={handleOpenMenu}
-                >
-                  <MoreHorizIcon />
-                </IconButton>
-                <Menu
-                  id="post-options-menu"
-                  MenuListProps={{
-                    "aria-labelledby": "post-options-button",
-                  }}
-                  open={open}
-                  onClose={handleCloseMenu}
-                  anchorEl={anchorEl}
-                >
-                  <MenuItem>
-                    <Typography>Edit</Typography>
-                  </MenuItem>
-                  <MenuItem>
-                    <Typography color="error">Delete</Typography>
-                  </MenuItem>
-                </Menu>
-              </CardActions>
-            </Grid>
+            {userId === data.author && (
+              <Grid item className={classes.horizIcon}>
+                <CardActions>
+                  <IconButton
+                    aria-label="more"
+                    id="post-options-button"
+                    aria-controls={menuOpen ? "post-options-menu" : undefined}
+                    aria-expanded={menuOpen ? "true" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleOpenMenu}
+                  >
+                    <MoreHorizIcon />
+                  </IconButton>
+                  <Menu
+                    id="post-options-menu"
+                    MenuListProps={{
+                      "aria-labelledby": "post-options-button",
+                    }}
+                    open={menuOpen}
+                    onClose={handleCloseMenu}
+                    anchorEl={anchorEl}
+                  >
+                    <MenuItem>
+                      <Typography>Edit</Typography>
+                    </MenuItem>
+                    <MenuItem
+                      component="button"
+                      onClick={handleOpenDeleteModal}
+                    >
+                      <Typography color="error">Delete</Typography>
+                    </MenuItem>
+                  </Menu>
+                </CardActions>
+              </Grid>
+            )}
           </Grid>
+
+          <DeleteModal
+            handleOpen={deleteModalOpen}
+            handleClose={handleCloseDeleteModal}
+            handleDelete={handleDelete}
+          />
 
           <Grid
             item

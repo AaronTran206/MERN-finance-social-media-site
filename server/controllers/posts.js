@@ -36,10 +36,10 @@ export const makePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params
 
-  if (!req.userId) return res.json({ message: "Log in to like the post" })
+  if (!req.userId) return res.json({ message: "Log in to like the post." })
 
   if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send("No post with that ID")
+    return res.status(404).send("No post with that ID.")
 
   //return post that matches post ID in req parameter
   const post = await Posts.findById(id)
@@ -60,4 +60,17 @@ export const likePost = async (req, res) => {
   })
 
   res.json(updatedPost)
+}
+
+export const deletePost = async (req, res) => {
+  const { id } = req.params
+
+  if (!req.userId) return res.json({ message: "Log in to delete the post." })
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No post with that id.")
+
+  await Posts.findByIdAndRemove(id)
+
+  res.json({ message: "Post deleted!" })
 }
