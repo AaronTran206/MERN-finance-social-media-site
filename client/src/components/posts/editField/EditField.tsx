@@ -26,7 +26,6 @@ const EditField: React.FC<{
 
   const handleCancel = () => {
     setEditMode(false)
-    setEditText("")
   }
 
   const handleSaveChanges = () => {
@@ -41,11 +40,10 @@ const EditField: React.FC<{
         <Grid item md={12} sx={{ marginBottom: theme.spacing(1) }}>
           <TextField
             onChange={(e: any) => setEditText(e.target.value)}
+            value={editText}
             fullWidth
             multiline
-          >
-            {editText}
-          </TextField>
+          ></TextField>
         </Grid>
       </form>
       <Grid container direction="row" spacing={1}>
