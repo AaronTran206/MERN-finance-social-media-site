@@ -33,6 +33,24 @@ export const makePost = async (req, res) => {
   }
 }
 
+export const editPost = async (req, res) => {
+  const { id: _id } = req.params
+  const post = req.body
+
+  if (!req.userId) return res.json({ message: "Log in to edit the post" })
+
+  if (!mongoose.Types.ObjectId.isValid(_id))
+    return res.status(404).send("No post with this ID.")
+
+  const updatedPost = await Posts.findByIdAndUpdate(
+    _id,
+    { ...post, _id },
+    { new: true }
+  )
+
+  res.json(updatedPost)
+}
+
 export const likePost = async (req, res) => {
   const { id } = req.params
 

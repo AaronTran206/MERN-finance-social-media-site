@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import * as api from "../components/utils/api"
-import { ReduxPostData } from "../components/utils/interfaces"
+import { ReduxPostData, EditPostData } from "../components/utils/interfaces"
 import { RootState } from "../store"
 
 //interface setup for redux posts slice
@@ -61,6 +61,21 @@ export const deletePost = createAsyncThunk(
   }
 )
 
+export const editPost = createAsyncThunk(
+  "/editPost",
+  async (d: EditPostData) => {
+    const { id, post } = d
+    console.log(d)
+    try {
+      const { data } = await api.editPost(id, post)
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
 export const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -107,6 +122,17 @@ export const postsSlice = createSlice({
     builder.addCase(deletePost.fulfilled, (state, action) => {
       state.status = "success"
       state.posts = state.posts.filter((post) => post._id !== action.payload)
+    })
+
+    //edit post
+    builder.addCase(editPost.rejected, (state, action) => {
+      state.status = "failed"
+    })
+    builder.addCase(editPost.fulfilled, (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      )
     })
   },
 })

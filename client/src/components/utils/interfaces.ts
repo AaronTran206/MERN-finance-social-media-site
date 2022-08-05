@@ -135,6 +135,12 @@ export interface PostData {
   selectedFile: string
 }
 
+//Edit Post Data
+export interface EditPostData {
+  id: string
+  post: PostInterface
+}
+
 //redux Post Data form
 export interface ReduxPostData {
   post: string

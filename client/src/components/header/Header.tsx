@@ -57,8 +57,6 @@ const Header: React.FC<{}> = () => {
     navigate(0)
   }
 
-  console.log("User:", user)
-
   return (
     <AppBar className={classes.appBar} position="static">
       <Toolbar className={classes.toolbar}>

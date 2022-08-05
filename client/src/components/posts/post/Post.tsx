@@ -34,11 +34,15 @@ import { likePost, deletePost } from "../../../slices/postsSlice"
 
 //components
 import DeleteModal from "../deleteModal/DeleteModal"
+import EditField from "../editField/EditField"
 
 const Post: React.FC<{
   data: PostInterface
 }> = ({ data }) => {
-  const [likes, setLikes] = useState<string[]>(data?.likes)
+  const [editText, setEditText] = useState<string>("")
+  const [postText, setPostText] = useState<string>(data.post)
+  const [likes, setLikes] = useState<string[]>(data.likes)
+  const [editMode, setEditMode] = useState<boolean>(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   //menu setup
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -84,6 +88,12 @@ const Post: React.FC<{
     } else {
       setLikes([...likes, userId])
     }
+  }
+
+  const handleEdit = async () => {
+    setEditText(postText)
+    setEditMode(true)
+    handleCloseMenu()
   }
 
   const Likes: React.FC<{}> = () => {
@@ -148,13 +158,10 @@ const Post: React.FC<{
                     onClose={handleCloseMenu}
                     anchorEl={anchorEl}
                   >
-                    <MenuItem>
+                    <MenuItem onClick={handleEdit}>
                       <Typography>Edit</Typography>
                     </MenuItem>
-                    <MenuItem
-                      component="button"
-                      onClick={handleOpenDeleteModal}
-                    >
+                    <MenuItem onClick={handleOpenDeleteModal}>
                       <Typography color="error">Delete</Typography>
                     </MenuItem>
                   </Menu>
@@ -175,7 +182,17 @@ const Post: React.FC<{
               margin: theme.spacing(1),
             }}
           >
-            <Typography variant="body1">{data.post}</Typography>
+            {editMode ? (
+              <EditField
+                editText={editText}
+                setEditText={setEditText}
+                setEditMode={setEditMode}
+                setPostText={setPostText}
+                data={data}
+              />
+            ) : (
+              <Typography variant="body1">{postText}</Typography>
+            )}
           </Grid>
           {data?.selectedFile && (
             <CardActionArea>
