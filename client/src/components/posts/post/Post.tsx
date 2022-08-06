@@ -16,6 +16,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Modal,
 } from "@mui/material"
 import moment from "moment"
 
@@ -44,6 +45,7 @@ const Post: React.FC<{
   const [likes, setLikes] = useState<string[]>(data.likes)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
+  const [imageModalOpen, setImageModalOpen] = useState<boolean>(false)
   //menu setup
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
@@ -73,6 +75,14 @@ const Post: React.FC<{
 
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false)
+  }
+
+  const handleOpenImageModal = () => {
+    setImageModalOpen(true)
+  }
+
+  const handleCloseImageModal = () => {
+    setImageModalOpen(false)
   }
 
   const handleDelete = async () => {
@@ -194,10 +204,18 @@ const Post: React.FC<{
               <Typography variant="body1">{postText}</Typography>
             )}
           </Grid>
+
           {data?.selectedFile && (
-            <CardActionArea>
-              <CardMedia component="img" image={data.selectedFile} />
-            </CardActionArea>
+            <Grid item>
+              <CardActionArea onClick={handleOpenImageModal}>
+                <CardMedia component="img" image={data.selectedFile} />
+              </CardActionArea>
+              <Modal open={imageModalOpen} onClose={handleCloseImageModal}>
+                <Card className={classes.imageCard}>
+                  <CardMedia component={"img"} image={data.selectedFile} />
+                </Card>
+              </Modal>
+            </Grid>
           )}
           <Divider orientation="horizontal" light />
           <Grid

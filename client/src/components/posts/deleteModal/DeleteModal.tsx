@@ -19,12 +19,7 @@ const DeleteModal: React.FC<{
   const classes = useStyles()
 
   return (
-    <Modal
-      open={handleOpen}
-      onClose={handleClose}
-      aria-labelledby="modal-delete"
-      aria-describedby="modal-delete-button"
-    >
+    <Modal open={handleOpen} onClose={handleClose}>
       <Card className={classes.deleteModalCard}>
         <Grid container direction="column">
           <Grid

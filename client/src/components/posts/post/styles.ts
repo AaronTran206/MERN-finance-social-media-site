@@ -37,7 +37,14 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2),
     paddingLeft: theme.spacing(2),
   },
-  cardActionsHoriz: {},
+  imageCard: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    padding: theme.spacing(2),
+    textAlign: "center",
+  },
   cardActionsLikes: {
     display: "flex",
     justifyContent: "flex-start",
