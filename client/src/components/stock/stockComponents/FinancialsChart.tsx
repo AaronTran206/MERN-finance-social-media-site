@@ -11,7 +11,7 @@ import {
 import { Bar } from "react-chartjs-2"
 import { FinData } from "../../utils/interfaces"
 import Loading from "../../loading/Loading"
-import { Link, Grid, Typography, rgbToHex } from "@mui/material"
+import { Link, Grid, Typography, rgbToHex, Button } from "@mui/material"
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -34,16 +34,18 @@ const AnnualForm: React.FC<{ data: FinData }> = ({ data }) => {
         marginTop: "1.2rem",
       }}
     >
-      <Link
-        color="primary"
-        underline="none"
-        variant="subtitle2"
-        rel="noreferrer"
-        target="_blank"
-        href={`${data?.finalLink}`}
-      >
-        <Typography>{`${data?.calendarYear} Form 10-K`}</Typography>
-      </Link>
+      <Button variant="outlined">
+        <Link
+          color="primary"
+          underline="none"
+          variant="subtitle2"
+          rel="noreferrer"
+          target="_blank"
+          href={`${data?.finalLink}`}
+        >
+          <Typography>{`${data?.calendarYear} Form 10-K`}</Typography>
+        </Link>
+      </Button>
     </Grid>
   )
 }

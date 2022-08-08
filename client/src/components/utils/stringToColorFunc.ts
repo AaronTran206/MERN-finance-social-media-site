@@ -1,5 +1,5 @@
 //MUI function that changes name to color
-function stringToColor(string: string) {
+export function stringToColor(string: string) {
   let hash = 0
   let i
 

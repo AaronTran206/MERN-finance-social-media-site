@@ -19,14 +19,16 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-start",
   },
+  dateText: {
+    display: "flex",
+    justifyContent: "flex-start",
+    color: "gray",
+  },
   horizIcon: {
     position: "absolute",
     right: 0,
     bottom: 0,
     color: "gray",
-  },
-  avatarContainer: {
-    paddingRight: theme.spacing(1),
   },
   name: {
     position: "relative",
@@ -45,17 +47,18 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
   },
-  cardActionsLikes: {
-    display: "flex",
-    justifyContent: "flex-start",
-  },
   likeButton: {
     marginRight: "1rem",
   },
-  dateText: {
+  cardActions: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignContent: "center",
+  },
+  sendIcon: {
     display: "flex",
     justifyContent: "flex-end",
-    color: "gray",
+    alignContent: "center",
   },
 }))
 

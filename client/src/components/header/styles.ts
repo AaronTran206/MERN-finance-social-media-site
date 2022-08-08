@@ -7,15 +7,14 @@ declare module "@mui/styles/defaultTheme" {
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    borderRadius: 5,
     marginBottom: "30px",
     display: "flex",
-    flexDirection: "row",
     justifyContent: "space-between",
+    flexDirection: "row",
     alignItems: "center",
     padding: "10px 50px",
     [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
+      padding: "10px 0px",
     },
   },
   heading: {
@@ -29,12 +28,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "5px",
   },
   toolbar: {
-    display: "flex",
-    justifyContent: "flex-end",
     width: "100%",
-    [theme.breakpoints.down("sm")]: {
-      width: "auto",
-    },
   },
   navbar: {
     display: "flex",
@@ -55,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-start",
     marginLeft: "20px",
+  },
+
+  //mobile
+  mobileMenuButton: {
+    display: "flex",
   },
 }))
 

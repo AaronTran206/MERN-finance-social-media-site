@@ -25,6 +25,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt"
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt"
 import DeleteIcon from "@mui/icons-material/Delete"
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
+import SendIcon from "@mui/icons-material/Send"
 
 //from other files
 import useStyles from "./styles"
@@ -36,11 +37,13 @@ import { likePost, deletePost } from "../../../slices/postsSlice"
 //components
 import DeleteModal from "../deleteModal/DeleteModal"
 import EditField from "../editField/EditField"
+import { setCommentRange } from "typescript"
 
 const Post: React.FC<{
   data: PostInterface
 }> = ({ data }) => {
   const [editText, setEditText] = useState<string>("")
+  const [comment, setComment] = useState<string>("")
   const [postText, setPostText] = useState<string>(data.post)
   const [likes, setLikes] = useState<string[]>(data.likes)
   const [editMode, setEditMode] = useState<boolean>(false)
@@ -106,6 +109,10 @@ const Post: React.FC<{
     handleCloseMenu()
   }
 
+  const handleComment = async () => {
+    setComment("")
+  }
+
   const Likes: React.FC<{}> = () => {
     //if the there is a person that liked the post
     if (likes.length > 0) {
@@ -136,16 +143,31 @@ const Post: React.FC<{
   return (
     <Grid item xs={12} className={classes.cardContainer}>
       <Card className={classes.card}>
-        <Paper className={classes.paper} elevation={3}>
+        <Paper className={classes.paper} elevation={5}>
           <Grid container direction="row" className={classes.cardHeader}>
-            <Grid item className={classes.avatarContainer}>
+            <Grid
+              item
+              sx={{
+                marginRight: theme.spacing(1),
+              }}
+            >
               <Avatar {...stringAvatar(data.name)}></Avatar>
             </Grid>
+
             <Grid item>
               <Typography variant="h5" className={classes.name}>
                 <strong>{data.name}</strong>
               </Typography>
+
+              <Typography
+                variant="caption"
+                className={classes.dateText}
+                sx={{ marginTop: theme.spacing(0.5) }}
+              >
+                {moment(data.createdAt).fromNow()}
+              </Typography>
             </Grid>
+
             {userId === data.author && (
               <Grid item className={classes.horizIcon}>
                 <CardActions>
@@ -201,7 +223,9 @@ const Post: React.FC<{
                 data={data}
               />
             ) : (
-              <Typography variant="body1">{postText}</Typography>
+              <Typography variant="body1" paragraph noWrap>
+                {postText}
+              </Typography>
             )}
           </Grid>
 
@@ -230,33 +254,26 @@ const Post: React.FC<{
               variant="outlined"
               multiline={true}
               fullWidth
-            ></TextField>
+              value={comment}
+              onChange={(e: any) => setComment(e.target.value)}
+            />
           </Grid>
-          <Grid container direction="row">
-            <Grid item md={6}>
-              <CardActions className={classes.cardActionsLikes}>
-                <Button
-                  size="small"
-                  color="primary"
-                  onClick={handleLike}
-                  disabled={!user.result}
-                >
-                  <Likes />
-                </Button>
-              </CardActions>
-            </Grid>
-            <Grid
-              item
-              md={6}
-              sx={{
-                marginTop: theme.spacing(1.5),
-              }}
+
+          <CardActions className={classes.cardActions}>
+            <Button
+              size="small"
+              color="primary"
+              onClick={handleLike}
+              disabled={!user.result}
             >
-              <Typography variant="caption" className={classes.dateText}>
-                {moment(data.createdAt).fromNow()}
-              </Typography>
-            </Grid>
-          </Grid>
+              <Likes />
+            </Button>
+            <div>
+              <Button variant="outlined" onClick={handleComment}>
+                <SendIcon />
+              </Button>
+            </div>
+          </CardActions>
         </Paper>
       </Card>
     </Grid>

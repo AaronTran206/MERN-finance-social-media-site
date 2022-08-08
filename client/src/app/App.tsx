@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import "./app.css"
 import Header from "../components/header/Header"
 import Stock from "../components/stock/Stock"
@@ -10,65 +10,74 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 
-//themes for mui
-const theme = createTheme({
-  palette: {
-    mode: "dark",
-    secondary: {
-      main: "#A800A8",
-    },
-  },
-})
-
 const App: React.FC<{}> = () => {
+  if (JSON.parse(localStorage.getItem("darkMode")!) === null)
+    localStorage.setItem("darkMode", "false")
+
+  const [appTheme, setAppTheme] = useState<boolean>(
+    JSON.parse(localStorage.getItem("darkMode")!)
+  )
   const user = JSON.parse(localStorage.getItem("profile")!)
 
-  console.log(user)
+  //themes for mui
+  const theme = createTheme({
+    palette: {
+      mode: appTheme ? "dark" : "light",
+      primary: {
+        main: "#800080",
+      },
+      secondary: {
+        main: "#a80076",
+      },
+      info: {
+        main: "#FFFFFF",
+      },
+    },
+  })
 
   return (
     <BrowserRouter>
       <GoogleOAuthProvider clientId="539291048397-uh153ujaiuf0qkad5rl2o0ah691gausj.apps.googleusercontent.com">
-        <Container
-          maxWidth="xl"
-          sx={{
-            scrollBar: {
-              "::webkit-scrollbar": {
+        <ThemeProvider theme={theme}>
+          <Box
+            sx={{
+              bgcolor: appTheme === true ? "background.default" : "#f0f0f0",
+
+              scrollBar: {
+                "::webkit-scrollbar": {
+                  width: 0,
+                },
+                "::webkit-scrollbar-track": {
+                  width: 0,
+                },
+                "::webkit-scrollbar-thumb": {
+                  width: 0,
+                },
+              },
+              "&::-webkit-scrollbar": {
                 width: 0,
               },
-              "::webkit-scrollbar-track": {
-                width: 0,
-              },
-              "::webkit-scrollbar-thumb": {
-                width: 0,
-              },
-            },
-            "&::-webkit-scrollbar": {
-              width: 0,
-            },
-          }}
-        >
-          <ThemeProvider theme={theme}>
-            <Box sx={{ bgcolor: "background.default" }}>
-              <CssBaseline />
-              <Header />
-              <Routes>
-                <Route
-                  path="/"
-                  element={user ? <Navigate to={"/home"} /> : <Auth />}
-                />
-                <Route
-                  path="/home"
-                  element={user ? <Home /> : <Navigate to="/" />}
-                />
-                <Route
-                  path="/search/:ticker"
-                  element={user ? <Stock /> : <Navigate to="/" />}
-                />
-              </Routes>
-              <Footer />
-            </Box>
-          </ThemeProvider>
-        </Container>
+            }}
+          >
+            <CssBaseline />
+            <Header setDarkMode={setAppTheme} darkMode={appTheme} />
+            <Routes>
+              <Route
+                path="/"
+                element={user ? <Navigate to={"/home"} /> : <Auth />}
+              />
+              <Route
+                path="/home"
+                element={user ? <Home /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/search/:ticker"
+                element={user ? <Stock /> : <Navigate to="/" />}
+              />
+            </Routes>
+            <Footer />
+          </Box>
+        </ThemeProvider>
       </GoogleOAuthProvider>
     </BrowserRouter>
   )
