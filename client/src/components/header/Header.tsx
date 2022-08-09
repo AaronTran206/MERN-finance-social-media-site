@@ -37,7 +37,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
       },
       "& + .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor: theme.palette.mode === "dark" ? "#8796A5" : "#aab4be",
+        backgroundColor: theme.palette.mode === "dark" ? "#AAB4BE" : "#6D7985",
       },
     },
   },
@@ -61,7 +61,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
   "& .MuiSwitch-track": {
     opacity: 1,
-    backgroundColor: theme.palette.mode === "dark" ? "#8796A5" : "#aab4be",
+    backgroundColor: theme.palette.mode === "dark" ? "#AAB4BE" : "#6D7985",
     borderRadius: 20 / 2,
   },
 }))
@@ -139,10 +139,9 @@ const Header: React.FC<{ setDarkMode: Function; darkMode: boolean }> = ({
           <Toolbar
             className={classes.toolbar}
             sx={{
-              // [theme.breakpoints.down("sm")]: {
-              //   display: "none",
-              // },
-              display: "none",
+              [theme.breakpoints.down("sm")]: {
+                display: "none",
+              },
             }}
           >
             <div className={classes.navbar}>
@@ -150,7 +149,7 @@ const Header: React.FC<{ setDarkMode: Function; darkMode: boolean }> = ({
                 className={classes.button}
                 onClick={navigateLanding}
                 variant="outlined"
-                color="primary"
+                color="info"
                 size="large"
               >
                 Home
@@ -162,13 +161,19 @@ const Header: React.FC<{ setDarkMode: Function; darkMode: boolean }> = ({
                 )}
               ></Avatar>
               <SearchBar />
-              <MaterialUISwitch />
+              <MaterialUISwitch
+                checked={darkMode}
+                onChange={handleDarkModeChange}
+              />
               <Button
                 className={classes.button}
                 onClick={logout}
                 variant="contained"
                 color="secondary"
                 size="large"
+                sx={{
+                  marginLeft: theme.spacing(2),
+                }}
               >
                 Logout
               </Button>
@@ -177,13 +182,11 @@ const Header: React.FC<{ setDarkMode: Function; darkMode: boolean }> = ({
 
           <Toolbar
             className={classes.toolbar}
-            sx={
-              {
-                // [theme.breakpoints.up("sm")]: {
-                //   display: "none",
-                // },
-              }
-            }
+            sx={{
+              [theme.breakpoints.up("sm")]: {
+                display: "none",
+              },
+            }}
           >
             <Button
               className={classes.mobileMenuButton}

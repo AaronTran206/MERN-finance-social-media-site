@@ -12,8 +12,6 @@ import {
 } from "@mui/material"
 import { stringToColor } from "../../utils/stringToColorFunc"
 import useStyles from "./styles"
-import { Translate } from "@mui/icons-material"
-import { transform } from "typescript"
 
 interface menuOptionsInterface {
   title: string
@@ -37,6 +35,7 @@ const MenuModal: React.FC<{
 }) => {
   const theme = createTheme()
   const classes = useStyles()
+  const appTheme = JSON.parse(localStorage.getItem("darkMode")!)
   const menuOptions: menuOptionsInterface[] = [
     {
       title: "Home",
@@ -82,17 +81,23 @@ const MenuModal: React.FC<{
             </Grid>
 
             {menuOptions.map((item, i) => (
-              <Grid
-                item
-                display="flex"
-                justifyContent="center"
-                alignContent="center"
-              >
-                <Button onClick={item.route}>
-                  <Typography variant="h3">{item.title}</Typography>
-                </Button>
-                {i === menuOptions.length - 1 ? null : <Divider />}
-              </Grid>
+              <>
+                <Grid item display="flex" justifyContent="center">
+                  <Button onClick={item.route}>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        color: appTheme === false ? "black" : "white",
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                  </Button>
+                </Grid>
+                {i === menuOptions.length - 1 ? null : (
+                  <Divider variant="middle" />
+                )}
+              </>
             ))}
             <Grid
               item
@@ -104,7 +109,7 @@ const MenuModal: React.FC<{
               }}
             >
               <Button onClick={logout} color="error" variant="outlined">
-                <Typography variant="h3">Logout</Typography>
+                <Typography variant="h4">Logout</Typography>
               </Button>
             </Grid>
           </Grid>

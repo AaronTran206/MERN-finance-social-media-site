@@ -24,10 +24,10 @@ const App: React.FC<{}> = () => {
     palette: {
       mode: appTheme ? "dark" : "light",
       primary: {
-        main: "#800080",
+        main: "#85bb65",
       },
       secondary: {
-        main: "#a80076",
+        main: "#018CFF",
       },
       info: {
         main: "#FFFFFF",
