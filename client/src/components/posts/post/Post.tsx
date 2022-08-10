@@ -29,15 +29,14 @@ import SendIcon from "@mui/icons-material/Send"
 
 //from other files
 import useStyles from "./styles"
-import { PostInterface } from "../../utils/interfaces"
+import { CommentInterface, PostInterface } from "../../utils/interfaces"
 import { stringAvatar } from "../../utils/stringToColorFunc"
 import { useAppDispatch } from "../../utils/reduxHooks"
-import { likePost, deletePost } from "../../../slices/postsSlice"
+import { likePost, deletePost, commentPost } from "../../../slices/postsSlice"
 
 //components
 import DeleteModal from "../deleteModal/DeleteModal"
 import EditField from "../editField/EditField"
-import { setCommentRange } from "typescript"
 
 const Post: React.FC<{
   data: PostInterface
@@ -110,6 +109,15 @@ const Post: React.FC<{
   }
 
   const handleComment = async () => {
+    if (comment === "") return
+
+    dispatch(
+      commentPost({
+        id: data._id,
+        comment: comment,
+        name: `${user?.result.given_name} ${user?.result.family_name}`,
+      })
+    )
     setComment("")
   }
 
@@ -274,6 +282,10 @@ const Post: React.FC<{
               </Button>
             </div>
           </CardActions>
+          <Divider />
+          {data.comments.map((com) => (
+            <Typography>{com.comment}</Typography>
+          ))}
         </Paper>
       </Card>
     </Grid>

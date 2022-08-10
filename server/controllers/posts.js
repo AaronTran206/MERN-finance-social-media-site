@@ -92,3 +92,26 @@ export const deletePost = async (req, res) => {
 
   res.json({ message: "Post deleted!" })
 }
+
+export const commentPost = async (req, res) => {
+  const { id: _id } = req.params
+  const commentData = req.body
+
+  if (!req.userId) return res.json({ message: "Log in to comment on a post." })
+  if (!mongoose.Types.ObjectId.isValid(_id))
+    return res.status(404).send("No post with that id.")
+
+  const post = await Posts.findById(_id)
+
+  const newComment = {
+    ...commentData,
+    author: req.userId,
+    createdAt: new Date().toISOString(),
+  }
+
+  post.comments.push(newComment)
+
+  const updatedPost = await Posts.findByIdAndUpdate(_id, post, { new: true })
+
+  res.json(updatedPost)
+}

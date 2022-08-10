@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import * as api from "../components/utils/api"
-import { ReduxPostData, EditPostData } from "../components/utils/interfaces"
+import {
+  ReduxPostData,
+  EditPostData,
+  CommentDataRedux,
+} from "../components/utils/interfaces"
 import { RootState } from "../store"
 
 //interface setup for redux posts slice
@@ -65,10 +69,30 @@ export const editPost = createAsyncThunk(
   "/editPost",
   async (d: EditPostData) => {
     const { id, post } = d
-    console.log(d)
+
     try {
       const { data } = await api.editPost(id, post)
 
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+export const commentPost = createAsyncThunk(
+  "commentPost",
+  async (d: CommentDataRedux) => {
+    const { id, comment, name } = d
+    const commentData = {
+      comment: comment,
+      name: name,
+    }
+
+    try {
+      const { data } = await api.commentPost(id, commentData)
+
+      console.log(data)
       return data
     } catch (error) {
       console.log(error)
@@ -94,9 +118,6 @@ export const postsSlice = createSlice({
     })
 
     //make post
-    builder.addCase(makePost.pending, (state, action) => {
-      state.status = "loading"
-    })
     builder.addCase(makePost.rejected, (state, action) => {
       state.status = "failed"
     })
@@ -129,6 +150,16 @@ export const postsSlice = createSlice({
       state.status = "failed"
     })
     builder.addCase(editPost.fulfilled, (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      )
+    })
+    //comment post
+    builder.addCase(commentPost.rejected, (state, action) => {
+      state.status = "failed"
+    })
+    builder.addCase(commentPost.fulfilled, (state, action) => {
       state.status = "success"
       state.posts = state.posts.map((post) =>
         post._id === action.payload._id ? action.payload : post

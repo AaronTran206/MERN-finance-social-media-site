@@ -1,5 +1,23 @@
 import mongoose from "mongoose"
 
+const commentSchema = mongoose.Schema({
+  name: String,
+  author: String,
+  comment: String,
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
+  likes: {
+    type: [String],
+    default: [],
+  },
+})
+
+commentSchema.add({
+  replies: [commentSchema],
+})
+
 const postsSchema = mongoose.Schema({
   name: String,
   author: String,
@@ -9,10 +27,7 @@ const postsSchema = mongoose.Schema({
     type: [String],
     default: [],
   },
-  comments: {
-    type: [String],
-    default: [],
-  },
+  comments: [commentSchema],
   createdAt: {
     type: Date,
     default: new Date(),

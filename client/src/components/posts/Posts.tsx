@@ -30,8 +30,8 @@ const Posts: React.FC<{}> = () => {
   return (
     <Container maxWidth="sm" className={classes.container}>
       <Grid container direction="column-reverse">
-        {posts.map((post: PostInterface) => (
-          <Post key={post._id} data={post} />
+        {posts?.map((post: PostInterface) => (
+          <Post key={post?._id} data={post} />
         ))}
       </Grid>
     </Container>

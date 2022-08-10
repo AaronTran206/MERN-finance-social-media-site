@@ -7,6 +7,7 @@ import {
   Typography,
   Container,
   createTheme,
+  Box,
 } from "@mui/material"
 
 import {
@@ -41,6 +42,7 @@ const Auth: React.FC<{}> = ({}) => {
   const [isSignedUp, setIsSignedUp] = useState<Boolean>(true)
   const [showPassword, setShowPassword] = useState<Boolean>(false)
   const [formData, setFormData] = useState<InitialFormState>(initialState)
+  const appTheme = JSON.parse(localStorage.getItem("darkMode")!)
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -117,7 +119,7 @@ const Auth: React.FC<{}> = ({}) => {
   }
 
   return (
-    <Container maxWidth="xs">
+    <Container maxWidth="xs" className={classes.container}>
       <Paper className={classes.paper} elevation={3}>
         <Avatar className={classes.avatar}>
           <LockOutlined />
@@ -191,6 +193,7 @@ const Auth: React.FC<{}> = ({}) => {
               onSuccess={googleSuccess}
               onError={googleFailure}
               cancel_on_tap_outside={true}
+              theme={appTheme === false ? "filled_blue" : "outline"}
             />
           </Grid>
 

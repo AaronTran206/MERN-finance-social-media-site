@@ -42,7 +42,7 @@ const App: React.FC<{}> = () => {
           <Box
             sx={{
               bgcolor: appTheme === true ? "background.default" : "#f0f0f0",
-
+              minHeight: "100vh",
               scrollBar: {
                 "::webkit-scrollbar": {
                   width: 0,

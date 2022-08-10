@@ -152,11 +152,32 @@ export interface ReduxPostData {
 export interface PostInterface {
   name: string
   author: string
-  comments: string[]
+  comments: CommentInterface[]
   createdAt: string
   likes: string[]
   post: string
   selectedFile: string
   __v: number
+  _id: string
+}
+
+export interface CommentDataRedux {
+  id: string
+  comment: string
+  name: string
+}
+
+export interface CommentData {
+  comment: string
+  name: string
+}
+
+export interface CommentInterface {
+  name: string
+  author: string
+  comment: string
+  createdAt: string
+  likes: string[]
+  replies: CommentInterface[]
   _id: string
 }
