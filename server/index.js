@@ -8,6 +8,7 @@ import dotenv from "dotenv"
 import searchRoutes from "./routes/search.js"
 import userRoutes from "./routes/users.js"
 import postsRoutes from "./routes/posts.js"
+import commentsRoutes from "./routes/comments.js"
 
 //setup
 const app = express()
@@ -21,6 +22,7 @@ app.use(express.json({ limit: "50mb" }))
 app.use("/search", searchRoutes)
 app.use("/user", userRoutes)
 app.use("/posts", postsRoutes)
+app.use("/comments", commentsRoutes)
 
 //server port
 const PORT = process.env.PORT || 8000

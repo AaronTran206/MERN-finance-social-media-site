@@ -5,17 +5,14 @@ import { Button, TextField, Grid, Typography, createTheme } from "@mui/material"
 //from other files
 import useStyles from "./styles"
 import { useAppDispatch } from "../../utils/reduxHooks"
-import { editPost } from "../../../slices/postsSlice"
 import { PostInterface } from "../../utils/interfaces"
-import { domainToASCII } from "url"
 
 const EditField: React.FC<{
   setEditText: Function
   editText: string
   setEditMode: Function
-  data: PostInterface
-  setPostText: Function
-}> = ({ editText, setEditText, setEditMode, data, setPostText }) => {
+  handleSaveChanges: any
+}> = ({ editText, setEditText, setEditMode, handleSaveChanges }) => {
   const theme = createTheme()
   const classes = useStyles()
   const dispatch = useAppDispatch()
@@ -25,12 +22,6 @@ const EditField: React.FC<{
   }
 
   const handleCancel = () => {
-    setEditMode(false)
-  }
-
-  const handleSaveChanges = () => {
-    dispatch(editPost({ id: data._id, post: { ...data, post: editText } }))
-    setPostText(editText)
     setEditMode(false)
   }
 
@@ -49,7 +40,7 @@ const EditField: React.FC<{
       <Grid container direction="row" spacing={1}>
         <Grid item md={6} display="flex" justifyContent="center">
           <Button
-            variant="outlined"
+            variant="contained"
             color="info"
             fullWidth
             onClick={handleCancel}

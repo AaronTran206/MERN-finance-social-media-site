@@ -15,7 +15,7 @@ const commentSchema = mongoose.Schema({
 })
 
 commentSchema.add({
-  replies: [commentSchema],
+  comments: [commentSchema],
 })
 
 const postsSchema = mongoose.Schema({

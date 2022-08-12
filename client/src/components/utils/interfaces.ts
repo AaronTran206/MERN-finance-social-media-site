@@ -181,3 +181,14 @@ export interface CommentInterface {
   replies: CommentInterface[]
   _id: string
 }
+
+//Comment Redux
+export interface LikeComment {
+  commentId: string
+  postId: string
+}
+
+export interface DeleteComment {
+  commentId: string
+  postId: string
+}

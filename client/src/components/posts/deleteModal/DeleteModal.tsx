@@ -14,7 +14,8 @@ const DeleteModal: React.FC<{
   handleOpen: boolean
   handleClose: any
   handleDelete: any
-}> = ({ handleOpen, handleClose, handleDelete }) => {
+  item: string
+}> = ({ handleOpen, handleClose, handleDelete, item }) => {
   const theme = createTheme()
   const classes = useStyles()
 
@@ -39,7 +40,7 @@ const DeleteModal: React.FC<{
             }}
           >
             <Typography variant="subtitle1" color="gray">
-              Do you really want to delete this post? This cannot be undone.
+              {`Do you really want to delete this ${item}? This cannot be undone.`}
             </Typography>
           </Grid>
 

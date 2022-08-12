@@ -21,8 +21,10 @@ const useStyles = makeStyles((theme) => ({
   },
   dateText: {
     display: "flex",
+    position: "absolute",
     justifyContent: "flex-start",
     color: "gray",
+    top: "2rem",
   },
   horizIcon: {
     position: "absolute",
@@ -35,9 +37,7 @@ const useStyles = makeStyles((theme) => ({
     top: "5px",
   },
   paper: {
-    paddingTop: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
+    padding: theme.spacing(2, 2, 0, 2),
   },
   imageCard: {
     position: "absolute",

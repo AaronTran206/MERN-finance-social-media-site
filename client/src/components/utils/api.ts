@@ -34,6 +34,13 @@ export const editPost = (id: string, updatedPost: PostInterface) =>
 export const commentPost = (id: string, commentData: CommentData) =>
   API.patch(`/posts/${id}/commentPost`, commentData)
 
+//comments
+export const likeComment = (commentId: string, postId: string) =>
+  API.patch(`/comments/${postId}/${commentId}/likeComment`)
+
+export const deleteComment = (commentId: string, postId: string) =>
+  API.delete(`/comments/${postId}/${commentId}/`)
+
 //stockDataSlice
 //go to backend server to fetch api data
 export const fetchFinanceData = (ticker: string) => API.get(`/search/${ticker}`)

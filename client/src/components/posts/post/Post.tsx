@@ -21,22 +21,26 @@ import {
 import moment from "moment"
 
 //icons
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt"
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt"
-import DeleteIcon from "@mui/icons-material/Delete"
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
 import SendIcon from "@mui/icons-material/Send"
 
 //from other files
 import useStyles from "./styles"
-import { CommentInterface, PostInterface } from "../../utils/interfaces"
+import { PostInterface } from "../../utils/interfaces"
 import { stringAvatar } from "../../utils/stringToColorFunc"
 import { useAppDispatch } from "../../utils/reduxHooks"
-import { likePost, deletePost, commentPost } from "../../../slices/postsSlice"
+import {
+  likePost,
+  deletePost,
+  commentPost,
+  editPost,
+} from "../../../slices/postsSlice"
 
 //components
 import DeleteModal from "../deleteModal/DeleteModal"
 import EditField from "../editField/EditField"
+import Comment from "./comment/Comment"
+import Likes from "../likes/Likes"
 
 const Post: React.FC<{
   data: PostInterface
@@ -48,6 +52,7 @@ const Post: React.FC<{
   const [editMode, setEditMode] = useState<boolean>(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   const [imageModalOpen, setImageModalOpen] = useState<boolean>(false)
+
   //menu setup
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
@@ -121,31 +126,10 @@ const Post: React.FC<{
     setComment("")
   }
 
-  const Likes: React.FC<{}> = () => {
-    //if the there is a person that liked the post
-    if (likes.length > 0) {
-      return likes.find((like) => like === userId) ? (
-        <>
-          <ThumbUpAltIcon fontSize="medium" />
-          &nbsp;
-          {likes.length > 2
-            ? `You and ${likes.length - 1} others`
-            : `${likes.length} like${likes.length > 1 ? "s" : ""}`}
-        </>
-      ) : (
-        <>
-          <ThumbUpOffAltIcon fontSize="medium" />
-          &nbsp;{likes.length} {likes.length === 1 ? "Like" : "Likes"}
-        </>
-      )
-    }
-    //if nobody has liked the post yet
-    return (
-      <>
-        <ThumbUpOffAltIcon fontSize="medium" />
-        &nbsp;Like
-      </>
-    )
+  const handleSaveChanges = () => {
+    dispatch(editPost({ id: data._id, post: { ...data, post: editText } }))
+    setPostText(editText)
+    setEditMode(false)
   }
 
   return (
@@ -153,16 +137,17 @@ const Post: React.FC<{
       <Card className={classes.card}>
         <Paper className={classes.paper} elevation={5}>
           <Grid container direction="row" className={classes.cardHeader}>
-            <Grid
-              item
-              sx={{
-                marginRight: theme.spacing(1),
-              }}
-            >
-              <Avatar {...stringAvatar(data.name)}></Avatar>
+            <Grid item xs={1}>
+              <Avatar {...stringAvatar(data.name)} />
             </Grid>
 
-            <Grid item>
+            <Grid
+              item
+              display="flex"
+              alignItems="center"
+              xs={11}
+              position="relative"
+            >
               <Typography variant="h5" className={classes.name}>
                 <strong>{data.name}</strong>
               </Typography>
@@ -214,12 +199,13 @@ const Post: React.FC<{
             handleOpen={deleteModalOpen}
             handleClose={handleCloseDeleteModal}
             handleDelete={handleDelete}
+            item={"post"}
           />
 
           <Grid
             item
             sx={{
-              margin: theme.spacing(1),
+              margin: theme.spacing(2.5, 1, 1, 1),
             }}
           >
             {editMode ? (
@@ -227,8 +213,7 @@ const Post: React.FC<{
                 editText={editText}
                 setEditText={setEditText}
                 setEditMode={setEditMode}
-                setPostText={setPostText}
-                data={data}
+                handleSaveChanges={handleSaveChanges}
               />
             ) : (
               <Typography variant="body1" paragraph noWrap>
@@ -274,7 +259,7 @@ const Post: React.FC<{
               onClick={handleLike}
               disabled={!user.result}
             >
-              <Likes />
+              <Likes likes={likes} />
             </Button>
             <div>
               <Button variant="outlined" onClick={handleComment}>
@@ -283,8 +268,11 @@ const Post: React.FC<{
             </div>
           </CardActions>
           <Divider />
-          {data.comments.map((com) => (
-            <Typography>{com.comment}</Typography>
+          {data.comments.map((com, i) => (
+            <>
+              <Comment commentData={com} postId={data._id} />
+              {i === data.comments.length - 1 ? null : <Divider />}
+            </>
           ))}
         </Paper>
       </Card>

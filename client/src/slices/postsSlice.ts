@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { create } from "domain"
 import * as api from "../components/utils/api"
 import {
   ReduxPostData,
   EditPostData,
   CommentDataRedux,
+  LikeComment,
+  DeleteComment,
 } from "../components/utils/interfaces"
 import { RootState } from "../store"
 
@@ -56,7 +59,7 @@ export const deletePost = createAsyncThunk(
   "/deletePost",
   async (id: string) => {
     try {
-      const { data } = await api.deletePost(id)
+      await api.deletePost(id)
 
       return id
     } catch (error) {
@@ -94,6 +97,34 @@ export const commentPost = createAsyncThunk(
 
       console.log(data)
       return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+//comment functions
+export const likeComment = createAsyncThunk(
+  "/likeComment",
+  async (d: LikeComment) => {
+    const { commentId, postId } = d
+
+    try {
+      const { data } = await api.likeComment(commentId, postId)
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+export const deleteComment = createAsyncThunk(
+  "/deleteComment",
+  async (d: DeleteComment) => {
+    const { commentId, postId } = d
+    try {
+      await api.deleteComment(commentId, postId)
     } catch (error) {
       console.log(error)
     }
@@ -164,6 +195,27 @@ export const postsSlice = createSlice({
       state.posts = state.posts.map((post) =>
         post._id === action.payload._id ? action.payload : post
       )
+    })
+
+    //COMMENTS
+    //like comment
+    builder.addCase(likeComment.rejected, (state, action) => {
+      state.status = "failed"
+    })
+    builder.addCase(likeComment.fulfilled, (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      )
+    })
+
+    //delete comment
+    builder.addCase(deleteComment.rejected, (state, action) => {
+      state.status = "failed"
+    })
+    builder.addCase(deleteComment.fulfilled, (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.filter((post) => post._id !== action.payload)
     })
   },
 })
