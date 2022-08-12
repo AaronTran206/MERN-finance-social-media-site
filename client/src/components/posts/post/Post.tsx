@@ -17,6 +17,7 @@ import {
   Menu,
   MenuItem,
   Modal,
+  Box,
 } from "@mui/material"
 import moment from "moment"
 
@@ -267,12 +268,12 @@ const Post: React.FC<{
               </Button>
             </div>
           </CardActions>
-          <Divider />
-          {data.comments.map((com, i) => (
-            <>
+
+          {data.comments.map((com) => (
+            <Box display="flex">
+              <Divider />
               <Comment commentData={com} postId={data._id} />
-              {i === data.comments.length - 1 ? null : <Divider />}
-            </>
+            </Box>
           ))}
         </Paper>
       </Card>

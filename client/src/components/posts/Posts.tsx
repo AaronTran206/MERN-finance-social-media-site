@@ -23,8 +23,6 @@ const Posts: React.FC<{}> = () => {
   const posts = useSelector(selectPosts)
   const status = useSelector(selectPostStatus)
 
-  console.log(posts)
-
   if (status === "loading") return <Loading remSize="20" />
 
   return (

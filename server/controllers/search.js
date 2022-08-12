@@ -5,8 +5,6 @@ export const fetchHistoricalPrice = async (req, res) => {
   //grab ticker symbol from frontend request
   const { ticker } = req.params
 
-  console.log(ticker)
-
   try {
     //fetch data from api
     const historical = `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?apikey=${process.env.FIN_API_KEY}`

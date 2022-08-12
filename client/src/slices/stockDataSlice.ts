@@ -31,8 +31,6 @@ export const fetchStockData = createAsyncThunk(
     try {
       const { data } = await api.fetchFinanceData(ticker)
 
-      console.log(data)
-
       return data
     } catch (err) {
       console.error(err)

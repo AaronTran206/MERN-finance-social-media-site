@@ -10,6 +10,15 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     paddingTop: theme.spacing(1),
   },
+  dividerButton: {
+    alignSelf: "flex-end",
+    height: "95%",
+    padding: 0.5,
+    borderRadius: 10,
+    cursor: " pointer",
+    borderColor: "transparent",
+    backgroundColor: "#63666A",
+  },
   dateText: {
     display: "flex",
     position: "absolute",

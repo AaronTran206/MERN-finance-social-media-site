@@ -38,7 +38,7 @@ export const signUp = createAsyncThunk(
   "/signup",
   async (d: InitialFormState) => {
     const formData = d
-    console.log("signUp:", formData)
+
     try {
       const { data } = await api.signUp(formData)
 
