@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import posts from "../models/posts.js"
 import Posts from "../models/posts.js"
 
 export const likeComment = async (req, res) => {
@@ -59,21 +60,100 @@ export const deleteComment = async (req, res) => {
 
   const post = await Posts.findById(postId)
 
-  const deleteCommentDocument = (p) => {
+  const deleteCommentDocument = async (p) => {
     let current = p
 
     if (current.comments.id(commentId) !== null) {
-      current.comments.id(commentId).remove()
+      await current.comments.id(commentId).remove()
 
-      current.save()
+      await current.ownerDocument().save()
+
+      const updatedPost = current.ownerDocument()
+
+      res.json(updatedPost)
     } else {
       current.comments.forEach((com) => {
         deleteCommentDocument(com)
       })
     }
   }
+  await deleteCommentDocument(post)
+}
 
-  deleteCommentDocument(post)
+export const replyComment = async (req, res) => {
+  const { postId, commentId } = req.params
+  const commentData = req.body //comment and name
 
-  res.json({ message: "Comment deleted!" })
+  if (!req.userId)
+    return res.json({ message: "Log in to reply to the comment." })
+  if (!mongoose.Types.ObjectId.isValid(postId))
+    return res.status(404).send("No parent with that ID.")
+  if (!mongoose.Types.ObjectId.isValid(commentId))
+    return res.status(404).send("No comment with that ID.")
+
+  const post = await posts.findById(postId)
+  const newComment = {
+    ...commentData,
+    author: req.userId,
+    createdAt: new Date().toISOString(),
+  }
+
+  const pushComment = async (p) => {
+    const current = p
+
+    if (current.comments.id(commentId) !== null) {
+      const c = current.comments.id(commentId)
+
+      await c.comments.push(newComment)
+
+      await c.ownerDocument().save()
+
+      const updatedPost = await Posts.findById(postId)
+      res.json(updatedPost)
+    } else {
+      current.comments.forEach((com) => {
+        pushComment(com)
+      })
+    }
+  }
+
+  await pushComment(post)
+}
+
+export const editComment = async (req, res) => {
+  const { postId, commentId } = req.params
+  const newPost = req.body
+
+  if (!req.userId) return res.json({ message: "Log in to edit the comment." })
+  if (!mongoose.Types.ObjectId.isValid(postId))
+    return res.status(404).send("No parent with that ID.")
+  if (!mongoose.Types.ObjectId.isValid(commentId))
+    return res.status(404).send("No comment with that ID.")
+
+  const post = await Posts.findById(postId)
+
+  const editComment = async (p) => {
+    const current = p
+
+    if (current.comments.id(commentId) !== null) {
+      const index = await current.comments.findIndex((com) =>
+        com._id.equals(commentId)
+      )
+
+      const originalCreatedAt = current.comments.id(commentId).createdAt
+
+      current.comments.splice(index, 1, { ...newPost, originalCreatedAt })
+
+      await current.ownerDocument().save()
+
+      const updatedPost = await Posts.findById(postId)
+      res.json(updatedPost)
+    } else {
+      current.comments.forEach((com) => {
+        editComment(com)
+      })
+    }
+  }
+
+  await editComment(post)
 }

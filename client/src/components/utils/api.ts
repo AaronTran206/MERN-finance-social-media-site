@@ -1,5 +1,11 @@
 import axios from "axios"
-import { InitialFormState, PostInterface, CommentData } from "./interfaces"
+import {
+  InitialFormState,
+  PostInterface,
+  CommentData,
+  ReplyData,
+  CommentInterface,
+} from "./interfaces"
 
 const API = axios.create({
   baseURL: "http://localhost:8000/",
@@ -35,11 +41,23 @@ export const commentPost = (id: string, commentData: CommentData) =>
   API.patch(`/posts/${id}/commentPost`, commentData)
 
 //comments
+export const deleteComment = (commentId: string, postId: string) =>
+  API.delete(`/comments/${postId}/${commentId}/`)
+
 export const likeComment = (commentId: string, postId: string) =>
   API.patch(`/comments/${postId}/${commentId}/likeComment`)
 
-export const deleteComment = (commentId: string, postId: string) =>
-  API.delete(`/comments/${postId}/${commentId}/`)
+export const replyComment = (
+  commentId: string,
+  postId: string,
+  commentData: ReplyData
+) => API.patch(`/comments/${postId}/${commentId}/replyComment`, commentData)
+
+export const editComment = (
+  commentId: string,
+  postId: string,
+  newPost: CommentInterface
+) => API.patch(`/comments/${postId}/${commentId}/editComment`, newPost)
 
 //stockDataSlice
 //go to backend server to fetch api data

@@ -216,7 +216,7 @@ const Post: React.FC<{
                 handleSaveChanges={handleSaveChanges}
               />
             ) : (
-              <Typography variant="body1" paragraph noWrap>
+              <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
                 {postText}
               </Typography>
             )}

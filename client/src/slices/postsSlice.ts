@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { create } from "domain"
+import { Action } from "history"
 import * as api from "../components/utils/api"
 import {
   ReduxPostData,
@@ -7,6 +8,8 @@ import {
   CommentDataRedux,
   LikeComment,
   DeleteComment,
+  ReplyComment,
+  EditComment,
 } from "../components/utils/interfaces"
 import { RootState } from "../store"
 
@@ -95,7 +98,6 @@ export const commentPost = createAsyncThunk(
     try {
       const { data } = await api.commentPost(id, commentData)
 
-      console.log(data)
       return data
     } catch (error) {
       console.log(error)
@@ -124,7 +126,44 @@ export const deleteComment = createAsyncThunk(
   async (d: DeleteComment) => {
     const { commentId, postId } = d
     try {
-      await api.deleteComment(commentId, postId)
+      const { data } = await api.deleteComment(commentId, postId)
+
+      console.log(data)
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+export const replyComment = createAsyncThunk(
+  "/replyComment",
+  async (d: ReplyComment) => {
+    const { commentId, postId, comment, name } = d
+    const commentData = {
+      comment: comment,
+      name: name,
+    }
+    try {
+      const { data } = await api.replyComment(commentId, postId, commentData)
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+export const editComment = createAsyncThunk(
+  "/editComment",
+  async (d: EditComment) => {
+    const { commentId, postId, newPost } = d
+
+    try {
+      const { data } = await api.editComment(commentId, postId, newPost)
+
+      return data
     } catch (error) {
       console.log(error)
     }
@@ -215,7 +254,30 @@ export const postsSlice = createSlice({
     })
     builder.addCase(deleteComment.fulfilled, (state, action) => {
       state.status = "success"
-      state.posts = state.posts.filter((post) => post._id !== action.payload)
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      )
+    })
+    //reply comment
+    builder.addCase(replyComment.rejected, (state, action) => {
+      state.status = "failed"
+    })
+    builder.addCase(replyComment.fulfilled, (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      )
+    })
+
+    //edit comment
+    builder.addCase(editComment.rejected, (state, action) => {
+      state.status = "failed"
+    })
+    builder.addCase(editComment.fulfilled, (state, action) => {
+      state.status = "success"
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      )
     })
   },
 })

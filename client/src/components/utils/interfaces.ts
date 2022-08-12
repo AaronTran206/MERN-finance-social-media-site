@@ -178,7 +178,7 @@ export interface CommentInterface {
   comment: string
   createdAt: string
   likes: string[]
-  replies: CommentInterface[]
+  comments: CommentInterface[]
   _id: string
 }
 
@@ -191,4 +191,22 @@ export interface LikeComment {
 export interface DeleteComment {
   commentId: string
   postId: string
+}
+
+export interface ReplyComment {
+  commentId: string
+  postId: string
+  comment: string
+  name: string
+}
+
+export interface ReplyData {
+  comment: string
+  name: string
+}
+
+export interface EditComment {
+  commentId: string
+  postId: string
+  newPost: CommentInterface
 }

@@ -23,7 +23,12 @@ import useStyles from "./styles"
 import { CommentInterface } from "../../../utils/interfaces"
 import { stringAvatar } from "../../../utils/stringToColorFunc"
 import { useAppDispatch } from "../../../utils/reduxHooks"
-import { likeComment, deleteComment } from "../../../../slices/postsSlice"
+import {
+  likeComment,
+  deleteComment,
+  replyComment,
+  editComment,
+} from "../../../../slices/postsSlice"
 
 //components
 import Likes from "../../likes/Likes"
@@ -90,14 +95,15 @@ const Comment: React.FC<{
 
   const handleSaveReply = () => {
     if (reply === "") return
-    // dispatch(
-    //   replyComment({
-    //     id: commentData._id,
-    //     reply: reply,
-    //     name: `${user?.result.given_name} ${user?.result.family_name}`,
-    //   })
-    // )
-
+    dispatch(
+      replyComment({
+        commentId: commentData._id,
+        postId: postId,
+        comment: reply,
+        name: `${user?.result.given_name} ${user?.result.family_name}`,
+      })
+    )
+    setReplyMode(false)
     setReply("")
   }
 
@@ -112,7 +118,13 @@ const Comment: React.FC<{
   }
 
   const handleSaveChanges = () => {
-    // dispatch(editComment({ id: data._id, post: { ...data, post: editText } }))
+    dispatch(
+      editComment({
+        commentId: commentData._id,
+        postId: postId,
+        newPost: { ...commentData, comment: editText },
+      })
+    )
     setCommentText(editText)
     setEditMode(false)
   }
@@ -185,7 +197,12 @@ const Comment: React.FC<{
         item={"comment"}
       />
 
-      <Grid item sx={{ padding: theme.spacing(3, 1, 0) }}>
+      <Grid
+        item
+        sx={{ padding: theme.spacing(2, 1, 0) }}
+        display="flex"
+        alignItems="center"
+      >
         {editMode ? (
           <EditField
             editText={editText}
@@ -194,7 +211,11 @@ const Comment: React.FC<{
             handleSaveChanges={handleSaveChanges}
           />
         ) : (
-          <Typography variant="body2" paragraph noWrap>
+          <Typography
+            variant="body2"
+            display="block"
+            sx={{ whiteSpace: "pre-line" }}
+          >
             {commentText}
           </Typography>
         )}
@@ -205,9 +226,13 @@ const Comment: React.FC<{
           color="primary"
           onClick={handleLike}
           disabled={!user.result}
-          sx={{ fontSize: "0.8rem" }}
+          sx={{
+            fontSize: "0.8rem",
+            display: "flex",
+            justifyContent: "flex-start",
+          }}
         >
-          <Likes likes={likes} small />
+          <Likes likes={likes} small noText />
         </Button>
         <div>
           <Button onClick={handleReply}>
@@ -238,6 +263,7 @@ const Comment: React.FC<{
                 color="info"
                 fullWidth
                 onClick={handleCancelReply}
+                size="small"
               >
                 <Typography>Cancel</Typography>
               </Button>
@@ -248,13 +274,21 @@ const Comment: React.FC<{
                 color="primary"
                 fullWidth
                 onClick={handleSaveReply}
+                size="small"
               >
-                <Typography>Save Changes</Typography>
+                <Typography>Send</Typography>
               </Button>
             </Grid>
           </Grid>
         </>
       )}
+      <Divider />
+      {commentData.comments.map((com, i) => (
+        <>
+          <Comment commentData={com} postId={postId} />
+          {i === commentData.comments.length - 1 ? null : <Divider />}
+        </>
+      ))}
     </Grid>
   )
 }
