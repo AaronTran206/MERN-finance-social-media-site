@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Grid, Paper, TextField, Container, Button } from "@mui/material"
+import { Grid, Paper, TextField, Container, Button, Breakpoint } from "@mui/material"
 //@ts-ignore
 import FileBase from "react-file-base64"
 import useStyles from "./styles"
@@ -7,7 +7,7 @@ import { PostData } from "../utils/interfaces"
 import { useAppDispatch } from "../utils/reduxHooks"
 import { makePost } from "../../slices/postsSlice"
 
-const CommentForm: React.FC<{}> = () => {
+const CommentForm: React.FC<{ width: Breakpoint }> = ({ width }) => {
   const [postData, setPostData] = useState<PostData>({
     post: "",
     selectedFile: "",
@@ -41,8 +41,8 @@ const CommentForm: React.FC<{}> = () => {
   }
 
   return (
-    <Container maxWidth="sm">
-      <Paper elevation={3} className={classes.paper}>
+    <Container maxWidth={width}>
+      <Paper className={classes.paper}>
         <form
           className={classes.form}
           autoComplete="off"

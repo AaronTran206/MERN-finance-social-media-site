@@ -13,6 +13,7 @@ import {
   Divider,
   TextField,
   Box,
+  Accordion,
 } from "@mui/material"
 import moment from "moment"
 
@@ -48,7 +49,7 @@ const Comment: React.FC<{
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   const [reply, setReply] = useState<string>("")
   const [replyMode, setReplyMode] = useState<boolean>(false)
-  const [collapsed, setCollapsed] = useState<boolean>(false)
+  const [isExpanded, setIsExpanded] = useState<boolean>(true)
 
   //menu setup
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -133,11 +134,68 @@ const Comment: React.FC<{
   }
 
   const handleDividerClick = () => {
-    setCollapsed(!collapsed)
+    setIsExpanded(!isExpanded)
   }
 
-  if (collapsed)
-    return (
+  // if (collapsed)
+  //   return (
+  //     <Box
+  //       display="flex"
+  //       sx={{ width: "100%", paddingBottom: theme.spacing(1) }}
+  //     >
+  //       <button
+  //         className={classes.dividerButton}
+  //         onClick={handleDividerClick}
+  //       />
+  //       <Grid
+  //         container
+  //         direction="row"
+  //         className={classes.container}
+  //         display="flex"
+  //         alignItems="center"
+  //       >
+  //         <Grid item sx={{ marginLeft: theme.spacing(2) }}>
+  //           <Avatar {...stringAvatar(commentData.name)} />
+  //         </Grid>
+  //         <Grid
+  //           item
+  //           display="flex"
+  //           alignItems="center"
+  //           sx={{ marginLeft: theme.spacing(0.7) }}
+  //         >
+  //           <Typography
+  //             variant="h5"
+  //             sx={{
+  //               fontSize: "1rem",
+  //             }}
+  //           >
+  //             <strong>{commentData.name}</strong>
+  //           </Typography>
+  //         </Grid>
+  //         <Grid item>
+  //           <CircleIcon
+  //             sx={{
+  //               color: "#63666A",
+  //               fontSize: 6,
+  //               marginLeft: theme.spacing(1),
+  //             }}
+  //           />
+  //         </Grid>
+
+  //         <Grid item display="flex" sx={{ marginTop: theme.spacing(0.5) }}>
+  //           <Typography
+  //             variant="caption"
+  //             sx={{ color: "gray", marginLeft: theme.spacing(1) }}
+  //           >
+  //             {moment(commentData.createdAt).fromNow()}
+  //           </Typography>
+  //         </Grid>
+  //       </Grid>
+  //     </Box>
+  //   )
+
+  return (
+    <Box display="flex">
       <Box
         display="flex"
         sx={{ width: "100%", paddingBottom: theme.spacing(1) }}
@@ -148,218 +206,194 @@ const Comment: React.FC<{
         />
         <Grid
           container
-          direction="row"
-          className={classes.container}
+          direction="column"
           display="flex"
-          alignItems="center"
+          sx={{ paddingLeft: theme.spacing(2) }}
         >
-          <Grid item sx={{ marginLeft: theme.spacing(2) }}>
-            <Avatar {...stringAvatar(commentData.name)} />
-          </Grid>
-          <Grid
-            item
-            display="flex"
-            alignItems="center"
-            sx={{ marginLeft: theme.spacing(0.7) }}
-          >
-            <Typography
-              variant="h5"
-              sx={{
-                fontSize: "1rem",
-              }}
-            >
-              <strong>{commentData.name}</strong>
-            </Typography>
-          </Grid>
-          <Grid item>
-            <CircleIcon
-              sx={{
-                color: "#63666A",
-                fontSize: 8,
-                marginLeft: theme.spacing(1),
-              }}
-            />
-          </Grid>
-
-          <Grid item display="flex" sx={{ marginTop: theme.spacing(0.5) }}>
-            <Typography
-              variant="caption"
-              sx={{ color: "gray", marginLeft: theme.spacing(1) }}
-            >
-              {moment(commentData.createdAt).fromNow()}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Box>
-    )
-
-  return (
-    <Box display="flex" sx={{ width: "100%", paddingBottom: theme.spacing(1) }}>
-      <button className={classes.dividerButton} onClick={handleDividerClick} />
-      <Grid
-        container
-        direction="column"
-        display="flex"
-        sx={{ paddingLeft: theme.spacing(2) }}
-      >
-        <Grid container direction="row" className={classes.container}>
-          <Grid item xs={1}>
-            <Avatar {...stringAvatar(commentData.name)} />
-          </Grid>
-          <Grid
-            item
-            display="flex"
-            alignItems="center"
-            position="relative"
-            xs={10}
-            sx={{ marginLeft: theme.spacing(0.7) }}
-          >
-            <Typography
-              variant="h5"
-              sx={{
-                fontSize: "1rem",
-              }}
-            >
-              <strong>{commentData.name}</strong>
-            </Typography>
-
-            <Typography variant="caption" className={classes.dateText}>
-              {moment(commentData.createdAt).fromNow()}
-            </Typography>
-          </Grid>
-          {userId === commentData.author && (
-            <Grid item className={classes.horizIcon}>
-              <CardActions>
-                <IconButton
-                  aria-label="more"
-                  id="comment-options-button"
-                  aria-controls={menuOpen ? "comment-options-menu" : undefined}
-                  aria-expanded={menuOpen ? "true" : undefined}
-                  aria-haspopup="true"
-                  onClick={handleOpenMenu}
-                >
-                  <MoreHorizIcon fontSize="small" />
-                </IconButton>
-                <Menu
-                  id="comment-options-menu"
-                  MenuListProps={{
-                    "aria-labelledby": "comment-options-button",
-                  }}
-                  open={menuOpen}
-                  onClose={handleCloseMenu}
-                  anchorEl={anchorEl}
-                >
-                  <MenuItem onClick={handleEdit}>
-                    <Typography>Edit</Typography>
-                  </MenuItem>
-                  <MenuItem onClick={handleOpenDeleteModal}>
-                    <Typography color="error">Delete</Typography>
-                  </MenuItem>
-                </Menu>
-              </CardActions>
-            </Grid>
-          )}
-        </Grid>
-
-        <DeleteModal
-          handleOpen={deleteModalOpen}
-          handleClose={handleCloseDeleteModal}
-          handleDelete={handleDelete}
-          item={"comment"}
-        />
-
-        <Grid
-          item
-          sx={{ padding: theme.spacing(2, 1, 0) }}
-          display="flex"
-          alignItems="center"
-        >
-          {editMode ? (
-            <EditField
-              editText={editText}
-              setEditText={setEditText}
-              setEditMode={setEditMode}
-              handleSaveChanges={handleSaveChanges}
-            />
-          ) : (
-            <Typography
-              variant="body2"
-              display="block"
-              sx={{ whiteSpace: "pre-line" }}
-            >
-              {commentText}
-            </Typography>
-          )}
-        </Grid>
-        <CardActions className={classes.cardActions}>
-          <Button
-            size="small"
-            color="primary"
-            onClick={handleLike}
-            disabled={!user.result}
+          <Accordion
+            defaultExpanded
+            expanded={isExpanded}
             sx={{
-              fontSize: "0.8rem",
-              display: "flex",
-              justifyContent: "flex-start",
+              backgroundColor: "pallete.background.paper",
+              boxShadow: 0,
             }}
           >
-            <Likes likes={likes} small noText />
-          </Button>
-          <div>
-            <Button onClick={handleReply}>
-              <strong>Reply</strong>
-            </Button>
-          </div>
-        </CardActions>
-        {replyMode && (
-          <>
-            <Grid item sx={{ marginBottom: theme.spacing(1) }}>
-              <Divider />
-              <TextField
-                onChange={(e: any) => setReply(e.target.value)}
-                value={reply}
-                fullWidth
-                multiline
-              />
-            </Grid>
             <Grid
               container
               direction="row"
-              spacing={1}
-              sx={{ marginBottom: theme.spacing(1) }}
+              className={classes.container}
+              display="flex"
+              alignItems="center"
             >
-              <Grid item md={6} display="flex" justifyContent="center">
-                <Button
-                  variant="contained"
-                  color="info"
-                  fullWidth
-                  onClick={handleCancelReply}
-                  size="small"
-                >
-                  <Typography>Cancel</Typography>
-                </Button>
+              <Grid item>
+                <Avatar {...stringAvatar(commentData.name)} />
               </Grid>
-              <Grid item md={6} display="flex" justifyContent="center">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  onClick={handleSaveReply}
-                  size="small"
+              <Grid item display="flex" sx={{ marginLeft: theme.spacing(0.7) }}>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontSize: "1rem",
+                  }}
                 >
-                  <Typography>Send</Typography>
-                </Button>
+                  <strong>{commentData.name}</strong>
+                </Typography>
               </Grid>
+
+              <Grid item>
+                <CircleIcon
+                  sx={{
+                    color: "#63666A",
+                    fontSize: 6,
+                    marginLeft: theme.spacing(1),
+                  }}
+                />
+              </Grid>
+
+              <Grid item display="flex" sx={{ marginTop: theme.spacing(0.5) }}>
+                <Typography
+                  variant="caption"
+                  sx={{ color: "gray", marginLeft: theme.spacing(1) }}
+                >
+                  {moment(commentData.createdAt).fromNow()}
+                </Typography>
+              </Grid>
+              {userId === commentData.author && (
+                <Grid item className={classes.horizIcon}>
+                  <CardActions>
+                    <IconButton
+                      aria-label="more"
+                      id="comment-options-button"
+                      aria-controls={
+                        menuOpen ? "comment-options-menu" : undefined
+                      }
+                      aria-expanded={menuOpen ? "true" : undefined}
+                      aria-haspopup="true"
+                      onClick={handleOpenMenu}
+                    >
+                      <MoreHorizIcon fontSize="small" />
+                    </IconButton>
+                    <Menu
+                      id="comment-options-menu"
+                      MenuListProps={{
+                        "aria-labelledby": "comment-options-button",
+                      }}
+                      open={menuOpen}
+                      onClose={handleCloseMenu}
+                      anchorEl={anchorEl}
+                    >
+                      <MenuItem onClick={handleEdit}>
+                        <Typography>Edit</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={handleOpenDeleteModal}>
+                        <Typography color="error">Delete</Typography>
+                      </MenuItem>
+                    </Menu>
+                  </CardActions>
+                </Grid>
+              )}
             </Grid>
-          </>
-        )}
-        {commentData.comments.map((com) => (
-          <>
-            <Divider />
-            <Comment commentData={com} postId={postId} />
-          </>
-        ))}
-      </Grid>
+
+            <DeleteModal
+              handleOpen={deleteModalOpen}
+              handleClose={handleCloseDeleteModal}
+              handleDelete={handleDelete}
+              item={"comment"}
+            />
+
+            <Grid
+              item
+              sx={{ padding: theme.spacing(2, 1, 0) }}
+              display="flex"
+              alignItems="center"
+            >
+              {editMode ? (
+                <EditField
+                  editText={editText}
+                  setEditText={setEditText}
+                  setEditMode={setEditMode}
+                  handleSaveChanges={handleSaveChanges}
+                />
+              ) : (
+                <Typography
+                  variant="body2"
+                  display="block"
+                  sx={{ whiteSpace: "pre-line" }}
+                >
+                  {commentText}
+                </Typography>
+              )}
+            </Grid>
+            <CardActions className={classes.cardActions}>
+              <Button
+                size="small"
+                color="primary"
+                onClick={handleLike}
+                disabled={!user.result}
+                sx={{
+                  fontSize: "0.8rem",
+                  display: "flex",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Likes likes={likes} small noText />
+              </Button>
+              <div>
+                <Button onClick={handleReply}>
+                  <strong>Reply</strong>
+                </Button>
+              </div>
+            </CardActions>
+            {replyMode && (
+              <>
+                <Grid item sx={{ marginBottom: theme.spacing(1) }}>
+                  <Divider />
+                  <TextField
+                    onChange={(e: any) => setReply(e.target.value)}
+                    value={reply}
+                    fullWidth
+                    multiline
+                  />
+                </Grid>
+                <Grid
+                  container
+                  direction="row"
+                  spacing={1}
+                  sx={{ marginBottom: theme.spacing(1) }}
+                >
+                  <Grid item md={6} display="flex" justifyContent="center">
+                    <Button
+                      variant="contained"
+                      color="info"
+                      fullWidth
+                      onClick={handleCancelReply}
+                      size="small"
+                    >
+                      <Typography>Cancel</Typography>
+                    </Button>
+                  </Grid>
+                  <Grid item md={6} display="flex" justifyContent="center">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      onClick={handleSaveReply}
+                      size="small"
+                    >
+                      <Typography>Send</Typography>
+                    </Button>
+                  </Grid>
+                </Grid>
+              </>
+            )}
+            {commentData.comments.map((com) => (
+              <>
+                <Divider />
+                <Comment commentData={com} postId={postId} />
+              </>
+            ))}
+          </Accordion>
+        </Grid>
+      </Box>
     </Box>
   )
 }

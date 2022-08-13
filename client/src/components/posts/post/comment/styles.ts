@@ -12,12 +12,16 @@ const useStyles = makeStyles((theme) => ({
   },
   dividerButton: {
     alignSelf: "flex-end",
-    height: "95%",
+    height: "92%",
     padding: 0.5,
     borderRadius: 10,
     cursor: " pointer",
     borderColor: "transparent",
-    backgroundColor: "#63666A",
+    backgroundColor: "#595b5f",
+    transition: "all 0.3s ease",
+    "&:hover": {
+      backgroundColor: "#919396",
+    },
   },
   dateText: {
     display: "flex",

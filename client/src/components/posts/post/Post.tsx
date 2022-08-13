@@ -24,6 +24,7 @@ import moment from "moment"
 //icons
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
 import SendIcon from "@mui/icons-material/Send"
+import CircleIcon from "@mui/icons-material/Circle"
 
 //from other files
 import useStyles from "./styles"
@@ -136,9 +137,15 @@ const Post: React.FC<{
   return (
     <Grid item xs={12} className={classes.cardContainer}>
       <Card className={classes.card}>
-        <Paper className={classes.paper} elevation={5}>
-          <Grid container direction="row" className={classes.cardHeader}>
-            <Grid item xs={1}>
+        <Paper className={classes.paper}>
+          <Grid
+            container
+            direction="row"
+            className={classes.cardHeader}
+            display="flex"
+            alignItems="center"
+          >
+            <Grid item>
               <Avatar {...stringAvatar(data.name)} />
             </Grid>
 
@@ -146,17 +153,26 @@ const Post: React.FC<{
               item
               display="flex"
               alignItems="center"
-              xs={11}
-              position="relative"
+              sx={{ marginLeft: theme.spacing(0.7) }}
             >
-              <Typography variant="h5" className={classes.name}>
+              <Typography variant="h5">
                 <strong>{data.name}</strong>
               </Typography>
+            </Grid>
+            <Grid item>
+              <CircleIcon
+                sx={{
+                  color: "#63666A",
+                  fontSize: 6,
+                  marginLeft: theme.spacing(1),
+                }}
+              />
+            </Grid>
 
+            <Grid item display="flex" sx={{ marginTop: theme.spacing(0.5) }}>
               <Typography
                 variant="caption"
-                className={classes.dateText}
-                sx={{ marginTop: theme.spacing(0.5) }}
+                sx={{ color: "gray", marginLeft: theme.spacing(1) }}
               >
                 {moment(data.createdAt).fromNow()}
               </Typography>
@@ -270,10 +286,10 @@ const Post: React.FC<{
           </CardActions>
 
           {data.comments.map((com) => (
-            <Box display="flex">
+            <>
               <Divider />
               <Comment commentData={com} postId={data._id} />
-            </Box>
+            </>
           ))}
         </Paper>
       </Card>

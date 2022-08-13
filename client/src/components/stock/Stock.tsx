@@ -1,6 +1,6 @@
 //packages and utils
 import React, { useEffect } from "react"
-import { Container, Grid, Typography } from "@mui/material"
+import { Container, Grid, Typography, Divider } from "@mui/material"
 import ErrorIcon from "@mui/icons-material/Error"
 import {
   selectStockData,
@@ -20,6 +20,7 @@ import OtherFinancials from "./stockComponents/OtherFinancials"
 import MarketCapData from "./stockComponents/MarketCapData"
 import Loading from "../loading/Loading"
 import General from "./stockComponents/General"
+import CommentForm from "../commentForm/CommentForm"
 
 const justifyAndCenter = {
   display: "flex",
@@ -76,7 +77,7 @@ const Stock: React.FC<{}> = () => {
 
   //display charts if data fetches from api successfully
   return (
-    <Container>
+    <Container maxWidth="lg">
       <Grid container>
         <Grid item md={12} sx={{ py: 1 }}>
           <General
@@ -105,6 +106,8 @@ const Stock: React.FC<{}> = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Divider />
+      <CommentForm width="lg" />
     </Container>
   )
 }

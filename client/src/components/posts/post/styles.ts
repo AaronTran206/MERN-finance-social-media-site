@@ -16,8 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
   cardHeader: {
     position: "relative",
-    display: "flex",
-    justifyContent: "flex-start",
   },
   dateText: {
     display: "flex",
@@ -31,10 +29,6 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     bottom: 0,
     color: "gray",
-  },
-  name: {
-    position: "relative",
-    top: "5px",
   },
   paper: {
     padding: theme.spacing(2, 2, 0, 2),

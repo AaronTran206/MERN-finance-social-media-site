@@ -33,6 +33,11 @@ const App: React.FC<{}> = () => {
         main: "#FFFFFF",
       },
     },
+    transitions: {
+      easing: {
+        easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)",
+      },
+    },
   })
 
   return (

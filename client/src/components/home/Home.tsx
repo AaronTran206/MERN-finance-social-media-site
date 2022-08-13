@@ -9,7 +9,7 @@ const Home: React.FC<{}> = () => {
   return (
     <Grid container direction={"row-reverse"} className={classes.container}>
       <Grid item xs={12}>
-        <CommentForm />
+        <CommentForm width="sm" />
       </Grid>
       <Grid item xs={12}>
         <Posts />
