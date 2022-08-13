@@ -286,10 +286,10 @@ const Post: React.FC<{
           </CardActions>
 
           {data.comments.map((com) => (
-            <>
+            <React.Fragment key={com._id}>
               <Divider />
               <Comment commentData={com} postId={data._id} />
-            </>
+            </React.Fragment>
           ))}
         </Paper>
       </Card>

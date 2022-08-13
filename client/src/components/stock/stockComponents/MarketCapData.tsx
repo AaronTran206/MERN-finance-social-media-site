@@ -13,6 +13,7 @@ const MarketCapComponent: React.FC<{
       md={12}
       sx={{
         textAlign: "center",
+        width: "100%",
         m: 1,
       }}
     >

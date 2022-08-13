@@ -81,7 +81,7 @@ const MenuModal: React.FC<{
             </Grid>
 
             {menuOptions.map((item, i) => (
-              <>
+              <React.Fragment key={item.title}>
                 <Grid item display="flex" justifyContent="center">
                   <Button onClick={item.route}>
                     <Typography
@@ -97,7 +97,7 @@ const MenuModal: React.FC<{
                 {i === menuOptions.length - 1 ? null : (
                   <Divider variant="middle" />
                 )}
-              </>
+              </React.Fragment>
             ))}
             <Grid
               item
