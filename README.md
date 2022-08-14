@@ -6,6 +6,8 @@ This project was made with the intent of learning and utilizing backend technolo
 
 ## Features
 
+- Authentication
+- Google authentication
 - Search for tickers
 - Make comments from the tickers page
 - Make posts
