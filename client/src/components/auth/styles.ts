@@ -8,6 +8,7 @@ declare module "@mui/styles/defaultTheme" {
 const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(8),
+    minHeight: "100vh",
   },
   paper: {
     display: "flex",

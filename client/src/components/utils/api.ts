@@ -8,7 +8,7 @@ import {
 } from "./interfaces"
 
 const API = axios.create({
-  baseURL: "http://localhost:8000/",
+  baseURL: "https://mern-finance-social-media.herokuapp.com/",
 })
 
 //middleware verification setup.

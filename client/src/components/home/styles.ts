@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     display: "flex",
     justifyContent: "space-around",
-    alignContent: "center",
+    minHeight: "100vh",
   },
 }))
 
