@@ -11,6 +11,7 @@ import {
   AccountInfo,
 } from "../components/utils/interfaces"
 import { CardActionArea } from "@mui/material"
+import { Root } from "react-dom/client"
 
 //interface setup for redux auth slice
 
@@ -80,6 +81,7 @@ export const authSlice = createSlice({
       state.status = "success"
       if (action.payload !== undefined) {
         localStorage.setItem("profile", JSON.stringify({ ...action.payload }))
+        state.status = "failed"
       }
       state.authData = action.payload
     })
@@ -99,5 +101,6 @@ export const authSlice = createSlice({
 export const { setAuthSlice, setAuthLogoutSlice } = authSlice.actions
 
 export const selectAuthData = (state: RootState) => state.auth.authData
+export const selectAuthStatus = (state: RootState) => state.auth.status
 
 export default authSlice.reducer

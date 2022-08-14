@@ -7,15 +7,10 @@ import {
   Typography,
   Container,
   createTheme,
-  Box,
   FormHelperText,
 } from "@mui/material"
 
-import {
-  GoogleLogin,
-  CredentialResponse,
-  useGoogleLogin,
-} from "@react-oauth/google"
+import { GoogleLogin, CredentialResponse } from "@react-oauth/google"
 
 //@ts-ignore
 import { decodeToken } from "react-jwt"
@@ -26,7 +21,6 @@ import { LockOutlined } from "@mui/icons-material"
 import Input from "./Input"
 import useStyles from "./styles"
 import { InitialFormState } from "../utils/interfaces"
-import { clear } from "console"
 //@ts-ignore
 
 const initialState = {
