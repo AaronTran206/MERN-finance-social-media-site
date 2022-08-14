@@ -10,11 +10,11 @@ const MarketCapComponent: React.FC<{
   return (
     <Grid
       item
-      md={12}
+      xs={12}
       sx={{
         textAlign: "center",
         width: "100%",
-        m: 1,
+        my: 1,
       }}
     >
       <Card>
@@ -34,7 +34,7 @@ const MarketCapData: React.FC<{ mktCapData: MktCapData | null }> = memo(
     if (mktCapData === null) return <Loading remSize={"12"} />
 
     return (
-      <Grid container sx={{ my: 3 }}>
+      <>
         <MarketCapComponent
           title="Market Cap"
           data={`$${Intl.NumberFormat("en-US").format(
@@ -51,7 +51,7 @@ const MarketCapData: React.FC<{ mktCapData: MktCapData | null }> = memo(
           title="# of Shares"
           data={Intl.NumberFormat("en-US").format(mktCapData.numberOfShares)}
         />
-      </Grid>
+      </>
     )
   }
 )

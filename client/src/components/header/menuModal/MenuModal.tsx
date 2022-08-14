@@ -35,7 +35,7 @@ const MenuModal: React.FC<{
 }) => {
   const theme = createTheme()
   const classes = useStyles()
-  const appTheme = JSON.parse(localStorage.getItem("darkMode")!)
+  const darkMode = JSON.parse(localStorage.getItem("darkMode")!)
   const menuOptions: menuOptionsInterface[] = [
     {
       title: "Home",
@@ -87,7 +87,7 @@ const MenuModal: React.FC<{
                     <Typography
                       variant="h4"
                       sx={{
-                        color: appTheme === false ? "black" : "white",
+                        color: darkMode === false ? "black" : "white",
                       }}
                     >
                       {item.title}

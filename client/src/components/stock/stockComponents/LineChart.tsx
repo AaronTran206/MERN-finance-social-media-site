@@ -13,6 +13,7 @@ import { Line } from "react-chartjs-2"
 import { MarketData } from "../../utils/interfaces"
 import zoomPlugin from "chartjs-plugin-zoom"
 import Loading from "../../loading/Loading"
+import { Grid, Paper } from "@mui/material"
 
 //Chart will use these features
 Chart.register(
@@ -40,7 +41,7 @@ const LineChart: React.FC<{ marketData: MarketData | null }> = memo(
   ({ marketData }) => {
     //chartJS options
     const options: any = {
-      responsive: true,
+      maintainAspectRatio: false,
       interaction: {
         mode: "index" as const,
         intersect: false,
@@ -182,7 +183,21 @@ const LineChart: React.FC<{ marketData: MarketData | null }> = memo(
 
     if (marketData === null) return <Loading remSize={"12"} />
 
-    return <Line options={options} data={chartData} />
+    return (
+      <Grid container>
+        <Paper
+          sx={{
+            position: "relative",
+            margin: "auto",
+            width: "80vw",
+            height: "50vh",
+            p: 1,
+          }}
+        >
+          <Line options={options} data={chartData} />
+        </Paper>
+      </Grid>
+    )
   }
 )
 

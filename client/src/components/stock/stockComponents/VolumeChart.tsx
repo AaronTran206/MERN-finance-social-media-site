@@ -12,6 +12,7 @@ import { Bar } from "react-chartjs-2"
 import { MarketData } from "../../utils/interfaces"
 import zoomPlugin from "chartjs-plugin-zoom"
 import Loading from "../../loading/Loading"
+import { Grid,Paper } from "@mui/material"
 
 //ChartJS will use these features
 Chart.register(
@@ -37,7 +38,7 @@ const vwapTtitle = `VWAP`
 const VolumeChart: React.FC<{ marketData: MarketData | null }> = memo(
   ({ marketData }) => {
     const options: any = {
-      responsive: true,
+      maintainAspectRatio: false,
       interaction: {
         mode: "index" as const,
         intersect: false,
@@ -110,7 +111,21 @@ const VolumeChart: React.FC<{ marketData: MarketData | null }> = memo(
 
     if (marketData === null) return <Loading remSize={"12"} />
 
-    return <Bar options={options} data={chartData} />
+    return (
+      <Grid container>
+        <Paper
+         sx={{
+            position: "relative",
+            margin: "auto",
+            width: "90vw",
+            height: "35vh",
+            p:1
+          }}
+        >
+          <Bar options={options} data={chartData} />
+        </Paper>
+      </Grid>
+    )
   }
 )
 

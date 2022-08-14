@@ -42,7 +42,7 @@ const Auth: React.FC<{}> = ({}) => {
   const [isSignedUp, setIsSignedUp] = useState<Boolean>(true)
   const [showPassword, setShowPassword] = useState<Boolean>(false)
   const [formData, setFormData] = useState<InitialFormState>(initialState)
-  const appTheme = JSON.parse(localStorage.getItem("darkMode")!)
+  const darkMode = JSON.parse(localStorage.getItem("darkMode")!)
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -193,7 +193,7 @@ const Auth: React.FC<{}> = ({}) => {
               onSuccess={googleSuccess}
               onError={googleFailure}
               cancel_on_tap_outside={true}
-              theme={appTheme === false ? "filled_blue" : "outline"}
+              theme={darkMode === false ? "filled_blue" : "outline"}
             />
           </Grid>
 

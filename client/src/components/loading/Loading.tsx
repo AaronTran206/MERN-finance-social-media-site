@@ -10,6 +10,7 @@ const Loading: React.FC<{ remSize: string }> = ({ remSize }) => {
         justifyContent: "center",
         alignContent: "center",
         padding: "3rem 0rem",
+        minHeight: "90vh",
       }}
     >
       <CircularProgress color="primary" size={`${remSize}rem`} />

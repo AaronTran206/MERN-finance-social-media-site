@@ -11,7 +11,7 @@ import {
 import { Bar } from "react-chartjs-2"
 import { FinData } from "../../utils/interfaces"
 import Loading from "../../loading/Loading"
-import { Link, Grid, Typography, rgbToHex, Button } from "@mui/material"
+import { Link, Grid, Typography, Button, Paper } from "@mui/material"
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -34,18 +34,20 @@ const AnnualForm: React.FC<{ data: FinData }> = ({ data }) => {
         marginTop: "1.2rem",
       }}
     >
-      <Button variant="outlined">
-        <Link
-          color="primary"
-          underline="none"
-          variant="subtitle2"
-          rel="noreferrer"
-          target="_blank"
-          href={`${data?.finalLink}`}
-        >
-          <Typography>{`${data?.calendarYear} Form 10-K`}</Typography>
-        </Link>
-      </Button>
+      <Paper>
+        <Button variant="outlined">
+          <Link
+            color="primary"
+            underline="none"
+            variant="subtitle2"
+            rel="noreferrer"
+            target="_blank"
+            href={`${data?.finalLink}`}
+          >
+            <Typography>{`${data?.calendarYear} Form 10-K`}</Typography>
+          </Link>
+        </Button>
+      </Paper>
     </Grid>
   )
 }
@@ -53,7 +55,7 @@ const AnnualForm: React.FC<{ data: FinData }> = ({ data }) => {
 const FinancialsChart: React.FC<{ finData: FinData[] }> = memo(
   ({ finData }) => {
     const options: any = {
-      responsive: true,
+      maintainAspectRatio: false,
       interaction: {
         mode: "x",
         intersect: false,
@@ -200,15 +202,25 @@ const FinancialsChart: React.FC<{ finData: FinData[] }> = memo(
 
     return (
       <Grid container>
-        <Bar options={options} data={data} />
+        <Paper
+          sx={{
+            p: 1,
+            position: "relative",
+            margin: "auto",
+            width: "90vw",
+            height: "40vh",
+          }}
+        >
+          <Bar options={options} data={data} />
+        </Paper>
         <Grid container direction={"row"}>
-          <Grid item md={4}>
+          <Grid item xs={6} md={4}>
             <AnnualForm data={finData[2]} />
           </Grid>
-          <Grid item md={4}>
+          <Grid item xs={6} md={4}>
             <AnnualForm data={finData[1]} />
           </Grid>
-          <Grid item md={4}>
+          <Grid item xs={6} md={4}>
             <AnnualForm data={finData[0]} />
           </Grid>
         </Grid>

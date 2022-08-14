@@ -45,7 +45,7 @@ const RatingChart: React.FC<{ ratingData: RatingData }> = memo(
 
           //append text to chart
           ctx.fillText(text, textX, textY)
-          ctx.fillStyle = "#fff"
+          ctx.fillStyle = "rgb(133, 133, 133)"
           ctx.save()
         },
       },

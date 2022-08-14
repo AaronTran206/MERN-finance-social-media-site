@@ -1,6 +1,12 @@
 //packages and utils
 import React, { useEffect } from "react"
-import { Container, Grid, Typography, Divider } from "@mui/material"
+import {
+  Container,
+  Grid,
+  Typography,
+  Divider,
+  createTheme,
+} from "@mui/material"
 import ErrorIcon from "@mui/icons-material/Error"
 import {
   selectStockData,
@@ -22,18 +28,13 @@ import Loading from "../loading/Loading"
 import General from "./stockComponents/General"
 import CommentForm from "../commentForm/CommentForm"
 
-const justifyAndCenter = {
-  display: "flex",
-  justifyContent: "center",
-  alignContent: "center",
-}
-
-const Stock: React.FC<{}> = () => {
+const Stock: React.FC<{}> = ({}) => {
   //get data from react store
   const stockData = useSelector(selectStockData)
   const status = useSelector(selectStockDataStatus)
   const dispatch = useAppDispatch()
   const { ticker } = useParams()
+  const theme = createTheme()
 
   useEffect(() => {
     //fetch data about ticker from insider trading api
@@ -48,12 +49,26 @@ const Stock: React.FC<{}> = () => {
   //error message if one of the api calls fails
   if (status === "failed" || stockData?.stock.historical === undefined)
     return (
-      <Grid container>
-        <Grid item md={12} sx={justifyAndCenter}>
-          <ErrorIcon sx={{ fontSize: "12rem" }} color="action" />
+      <Grid
+        container
+        sx={{
+          minHeight: "90vh",
+          display: "flex",
+          alignContent: "flex-start",
+          justifyContent: "center",
+        }}
+      >
+        <Grid
+          item
+          justifyContent="center"
+          display="flex"
+          xs={12}
+          sx={{ marginTop: theme.spacing(10) }}
+        >
+          <ErrorIcon sx={{ fontSize: "15rem" }} color="action" />
         </Grid>
-        <Grid item md={12} sx={justifyAndCenter}>
-          <Typography sx={{ color: "white" }}>
+        <Grid item justifyContent="center" display="flex" xs={12}>
+          <Typography variant="h5">
             An Error Occurred. Please refresh the page.
           </Typography>
         </Grid>
@@ -77,18 +92,24 @@ const Stock: React.FC<{}> = () => {
 
   //display charts if data fetches from api successfully
   return (
-    <Container maxWidth="lg">
-      <Grid container>
-        <Grid item md={12} sx={{ py: 1 }}>
+    <Container maxWidth="lg" sx={{ minHeight: "100vh" }}>
+      <Grid
+        container
+        display="flex"
+        justifyContent="center"
+        spacing={5}
+        sx={{ marginBottom: theme.spacing(4) }}
+      >
+        <Grid item md={12}>
           <General
             mktCapData={stockData?.mktData[0]}
             finData={stockData?.fin[0]}
           />
         </Grid>
-        <Grid item xs={12} sx={{ py: 1 }}>
+        <Grid item xs={12}>
           <LineChart marketData={sortedRes} />
         </Grid>
-        <Grid item xs={12} sx={{ py: 1 }}>
+        <Grid item xs={12}>
           <VolumeChart marketData={sortedRes} />
         </Grid>
 
@@ -96,18 +117,18 @@ const Stock: React.FC<{}> = () => {
           <FinancialsChart finData={stockData?.fin} />
         </Grid>
 
-        <Grid container direction="row">
-          <Grid item xs={12} md={5} sx={{ m: 3 }}>
-            <RatingChart ratingData={stockData?.rating[0]} />
-          </Grid>
-          <Grid item xs={12} md={5} sx={{ m: 3 }}>
-            <OtherFinancials finDataArr={stockData?.fin.slice(0, 3)} />
-            <MarketCapData mktCapData={stockData?.mktData[0]} />
-          </Grid>
+        <Grid item xs={12} md={6}>
+          <RatingChart ratingData={stockData?.rating[0]} />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <OtherFinancials finDataArr={stockData?.fin.slice(0, 3)} />
+          <MarketCapData mktCapData={stockData?.mktData[0]} />
         </Grid>
       </Grid>
-      <Divider />
-      <CommentForm width="lg" />
+      <Divider sx={{ marginBottom: theme.spacing(3) }} />
+      <Grid container>
+        <CommentForm width="lg" />
+      </Grid>
     </Container>
   )
 }

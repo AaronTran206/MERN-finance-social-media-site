@@ -14,7 +14,7 @@ const App: React.FC<{}> = () => {
   if (JSON.parse(localStorage.getItem("darkMode")!) === null)
     localStorage.setItem("darkMode", "false")
 
-  const [appTheme, setAppTheme] = useState<boolean>(
+  const [darkMode, setDarkMode] = useState<boolean>(
     JSON.parse(localStorage.getItem("darkMode")!)
   )
   const user = JSON.parse(localStorage.getItem("profile")!)
@@ -22,7 +22,7 @@ const App: React.FC<{}> = () => {
   //themes for mui
   const theme = createTheme({
     palette: {
-      mode: appTheme ? "dark" : "light",
+      mode: darkMode ? "dark" : "light",
       primary: {
         main: "#85bb65",
       },
@@ -46,7 +46,7 @@ const App: React.FC<{}> = () => {
         <ThemeProvider theme={theme}>
           <Box
             sx={{
-              bgcolor: appTheme === true ? "background.default" : "#f0f0f0",
+              bgcolor: darkMode === true ? "background.default" : "#f0f0f0",
               minHeight: "100vh",
               scrollBar: {
                 "::webkit-scrollbar": {
@@ -65,7 +65,7 @@ const App: React.FC<{}> = () => {
             }}
           >
             <CssBaseline />
-            <Header setDarkMode={setAppTheme} darkMode={appTheme} />
+            <Header setDarkMode={setDarkMode} darkMode={darkMode} />
             <Routes>
               <Route
                 path="/"

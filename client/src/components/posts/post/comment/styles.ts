@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     cursor: " pointer",
     borderColor: "transparent",
-    backgroundColor: "#595b5f",
+    backgroundColor: "#7A7B7F",
     transition: "all 0.3s ease",
     "&:hover": {
       backgroundColor: "#919396",

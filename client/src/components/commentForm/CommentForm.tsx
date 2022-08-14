@@ -1,11 +1,19 @@
 import React, { useState } from "react"
-import { Grid, Paper, TextField, Container, Button, Breakpoint } from "@mui/material"
+import {
+  Grid,
+  Paper,
+  TextField,
+  Container,
+  Button,
+  Breakpoint,
+} from "@mui/material"
 //@ts-ignore
 import FileBase from "react-file-base64"
 import useStyles from "./styles"
 import { PostData } from "../utils/interfaces"
 import { useAppDispatch } from "../utils/reduxHooks"
 import { makePost } from "../../slices/postsSlice"
+import { useLocation, useNavigate } from "react-router-dom"
 
 const CommentForm: React.FC<{ width: Breakpoint }> = ({ width }) => {
   const [postData, setPostData] = useState<PostData>({
@@ -16,6 +24,8 @@ const CommentForm: React.FC<{ width: Breakpoint }> = ({ width }) => {
   const user = JSON.parse(localStorage.getItem("profile")!)
   const classes = useStyles()
   const dispatch = useAppDispatch()
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const clearInput = () => {
     setPostData({
@@ -38,6 +48,8 @@ const CommentForm: React.FC<{ width: Breakpoint }> = ({ width }) => {
     )
     //clearInput input fields
     clearInput()
+
+    if (location.pathname !== "/home") navigate("/home")
   }
 
   return (
