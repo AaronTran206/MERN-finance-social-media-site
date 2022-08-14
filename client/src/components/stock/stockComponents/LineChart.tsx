@@ -189,7 +189,7 @@ const LineChart: React.FC<{ marketData: MarketData | null }> = memo(
           sx={{
             position: "relative",
             margin: "auto",
-            width: "80vw",
+            width: "90vw",
             height: "50vh",
             p: 1,
           }}
