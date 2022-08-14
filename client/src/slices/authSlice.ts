@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import {
+  createAsyncThunk,
+  createSlice,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit"
 import * as api from "../components/utils/api"
 import { RootState } from "../store"
 import {
@@ -6,6 +10,7 @@ import {
   InitialFormState,
   AccountInfo,
 } from "../components/utils/interfaces"
+import { CardActionArea } from "@mui/material"
 
 //interface setup for redux auth slice
 
@@ -24,9 +29,9 @@ export const signIn = createAsyncThunk(
   "/signin",
   async (d: InitialFormState) => {
     const formData = d
-
     try {
       const { data } = await api.signIn(formData)
+
       return data
     } catch (err) {
       console.error(err)
@@ -36,7 +41,7 @@ export const signIn = createAsyncThunk(
 
 export const signUp = createAsyncThunk(
   "/signup",
-  async (d: InitialFormState) => {
+  async (d: InitialFormState, { rejectWithValue }) => {
     const formData = d
 
     try {
@@ -73,7 +78,9 @@ export const authSlice = createSlice({
     })
     builder.addCase(signIn.fulfilled, (state, action) => {
       state.status = "success"
-      localStorage.setItem("profile", JSON.stringify({ ...action.payload }))
+      if (action.payload !== undefined) {
+        localStorage.setItem("profile", JSON.stringify({ ...action.payload }))
+      }
       state.authData = action.payload
     })
     //sign up
@@ -85,8 +92,6 @@ export const authSlice = createSlice({
     })
     builder.addCase(signUp.fulfilled, (state, action) => {
       state.status = "success"
-      localStorage.setItem("profile", JSON.stringify({ ...action.payload }))
-      state.authData = action.payload
     })
   },
 })

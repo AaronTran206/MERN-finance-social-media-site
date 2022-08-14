@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(2),
     display: "flex",
-    justifyContent: "space-around",
+    alignContent: "flex-start",
     minHeight: "100vh",
   },
 }))

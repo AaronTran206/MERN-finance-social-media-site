@@ -207,8 +207,8 @@ const Header: React.FC<{ setDarkMode: Function; darkMode: boolean }> = ({
       <MenuModal
         handleOpen={menuModalOpen}
         handleClose={handleCloseMenuModal}
-        givenName={user?.result.given_name}
-        familyName={user?.result.family_name}
+        givenName={user?.result?.given_name}
+        familyName={user?.result?.family_name}
         navigateLanding={navigateLanding}
         logout={logout}
       />

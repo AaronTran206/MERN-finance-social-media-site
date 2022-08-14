@@ -1,5 +1,12 @@
 import React from "react"
-import { TextField, Grid, InputAdornment, IconButton } from "@mui/material"
+import {
+  TextField,
+  Grid,
+  InputAdornment,
+  IconButton,
+  FormHelperText,
+  createTheme,
+} from "@mui/material"
 import { Visibility } from "@mui/icons-material"
 import { VisibilityOff } from "@mui/icons-material"
 
@@ -11,6 +18,9 @@ const Input: React.FC<{
   autoFocus?: boolean
   type?: string
   handleShowPassword?: any
+  passwordError?: boolean
+  describedby?: string
+  value: string
 }> = ({
   name,
   label,
@@ -19,10 +29,18 @@ const Input: React.FC<{
   autoFocus,
   type,
   handleShowPassword,
+  passwordError,
+  describedby,
+  value,
 }) => {
+  const theme = createTheme()
+
   return (
     <Grid item xs={6} sm={half ? 6 : 12}>
       <TextField
+        value={value}
+        aria-describedby={describedby}
+        error={passwordError}
         name={name}
         label={label}
         onChange={handleChange}
@@ -45,6 +63,13 @@ const Input: React.FC<{
             : undefined
         }
       />
+      {passwordError && name === "confirmPassword" && (
+        <Grid item xs={12}>
+          <FormHelperText sx={{ color: theme.palette.error.light }}>
+            Passwords don't match.
+          </FormHelperText>
+        </Grid>
+      )}
     </Grid>
   )
 }

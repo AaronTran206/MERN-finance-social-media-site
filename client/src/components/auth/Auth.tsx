@@ -8,6 +8,7 @@ import {
   Container,
   createTheme,
   Box,
+  FormHelperText,
 } from "@mui/material"
 
 import {
@@ -25,6 +26,7 @@ import { LockOutlined } from "@mui/icons-material"
 import Input from "./Input"
 import useStyles from "./styles"
 import { InitialFormState } from "../utils/interfaces"
+import { clear } from "console"
 //@ts-ignore
 
 const initialState = {
@@ -39,36 +41,21 @@ const initialState = {
 const theme = createTheme()
 
 const Auth: React.FC<{}> = ({}) => {
-  const [isSignedUp, setIsSignedUp] = useState<Boolean>(true)
-  const [showPassword, setShowPassword] = useState<Boolean>(false)
+  const [isSignedUp, setIsSignedUp] = useState<boolean>(true)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [passwordError, setPasswordError] = useState<boolean>(false)
   const [formData, setFormData] = useState<InitialFormState>(initialState)
   const darkMode = JSON.parse(localStorage.getItem("darkMode")!)
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-
   const classes = useStyles()
+  const theme = createTheme()
 
   //switch form mode from signed up or not signed up
   const switchMode = () => {
     setIsSignedUp(!isSignedUp)
     setShowPassword(false)
-  }
-
-  //navigate to home page
-  const navigateHome = () => {
-    navigate("/home")
-
-    //refresh page
-    navigate(0)
-  }
-
-  //navigate back to landing page
-  const navigateLandingPage = () => {
-    navigate("/")
-
-    //refresh page
-    navigate(0)
   }
 
   //change form field values on key press
@@ -88,15 +75,32 @@ const Auth: React.FC<{}> = ({}) => {
     //if user is already signed up, sign in
     if (isSignedUp) {
       dispatch(signIn(formData)).then(() => {
-        navigateHome()
+        navigate("/home")
+        navigate(0)
       })
     }
 
     //if user is not signed up yet, sign up
     if (!isSignedUp) {
-      dispatch(signUp(formData)).then(() => {
-        navigateLandingPage()
-      })
+      console.log(formData.password === formData.confirmPassword)
+
+      if (formData.confirmPassword === formData.password) {
+        setPasswordError(false)
+      }
+
+      if (formData.confirmPassword !== formData.password) {
+        setPasswordError(true)
+      }
+
+      if (
+        formData.email.includes("@") &&
+        formData.confirmPassword === formData.password
+      ) {
+        dispatch(signUp(formData)).then(() => {
+          setIsSignedUp(true)
+          clear()
+        })
+      }
     }
   }
 
@@ -109,13 +113,24 @@ const Auth: React.FC<{}> = ({}) => {
       //dispatch decoded results to redux global state
       dispatch(setAuthSlice({ result: decodedToken, token: res.credential }))
 
-      navigateHome()
+      navigate("/home")
+      navigate(0)
     }
   }
 
   //google login failure
   const googleFailure = () => {
     console.log("Google Login Failed")
+  }
+
+  const clear = () => {
+    setFormData({
+      given_name: "",
+      family_name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    })
   }
 
   return (
@@ -137,11 +152,13 @@ const Auth: React.FC<{}> = ({}) => {
                   handleChange={handleChange}
                   autoFocus
                   half
+                  value={formData.given_name}
                 />
                 <Input
                   name="family_name"
                   label="Last Name"
                   handleChange={handleChange}
+                  value={formData.family_name}
                   half
                 />
               </>
@@ -151,6 +168,7 @@ const Auth: React.FC<{}> = ({}) => {
               label="Email Address"
               handleChange={handleChange}
               type="email"
+              value={formData.email}
               autoFocus
             />
             <Input
@@ -159,6 +177,8 @@ const Auth: React.FC<{}> = ({}) => {
               handleChange={handleChange}
               type={showPassword ? "text" : "password"}
               handleShowPassword={handleShowPassword}
+              passwordError={passwordError}
+              value={formData.password}
             />
             {!isSignedUp && (
               <Input
@@ -166,6 +186,9 @@ const Auth: React.FC<{}> = ({}) => {
                 label="Confirm Password"
                 handleChange={handleChange}
                 type="password"
+                passwordError={passwordError}
+                describedby="error-text"
+                value={formData.confirmPassword}
               />
             )}
           </Grid>

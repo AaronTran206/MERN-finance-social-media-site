@@ -9,7 +9,7 @@ const Likes: React.FC<{
 }> = ({ likes, small, noText }) => {
   //get current profile ID to compare with individual posts
   const user = JSON.parse(localStorage.getItem("profile")!)
-  const userId = user?.result.sub || user?.result._id
+  const userId = user?.result?.sub || user?.result?._id
 
   if (noText) {
     //if the there is a person that liked the post

@@ -65,7 +65,7 @@ const Post: React.FC<{
   const dispatch = useAppDispatch()
 
   //get current profile ID to compare with individual posts
-  const userId = user?.result.sub || user?.result._id
+  const userId = user?.result?.sub || user?.result?._id
 
   //get variable for if this profile has liked the post
   const hasLikedPost = likes.find((like: string) => like === userId)
