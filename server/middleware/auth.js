@@ -21,7 +21,7 @@ const auth = async (req, res, next) => {
       decodedData = jwt.verify(token, "account")
 
       //send user id to the controller functions in the backend
-      req.userId = decodedData?.id
+      req.userId = decodedData.id
     } else {
       decodedData = jwt.decode(token)
 

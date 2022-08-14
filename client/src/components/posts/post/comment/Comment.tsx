@@ -137,63 +137,6 @@ const Comment: React.FC<{
     setIsExpanded(!isExpanded)
   }
 
-  // if (collapsed)
-  //   return (
-  //     <Box
-  //       display="flex"
-  //       sx={{ width: "100%", paddingBottom: theme.spacing(1) }}
-  //     >
-  //       <button
-  //         className={classes.dividerButton}
-  //         onClick={handleDividerClick}
-  //       />
-  //       <Grid
-  //         container
-  //         direction="row"
-  //         className={classes.container}
-  //         display="flex"
-  //         alignItems="center"
-  //       >
-  //         <Grid item sx={{ marginLeft: theme.spacing(2) }}>
-  //           <Avatar {...stringAvatar(commentData.name)} />
-  //         </Grid>
-  //         <Grid
-  //           item
-  //           display="flex"
-  //           alignItems="center"
-  //           sx={{ marginLeft: theme.spacing(0.7) }}
-  //         >
-  //           <Typography
-  //             variant="h5"
-  //             sx={{
-  //               fontSize: "1rem",
-  //             }}
-  //           >
-  //             <strong>{commentData.name}</strong>
-  //           </Typography>
-  //         </Grid>
-  //         <Grid item>
-  //           <CircleIcon
-  //             sx={{
-  //               color: "#63666A",
-  //               fontSize: 6,
-  //               marginLeft: theme.spacing(1),
-  //             }}
-  //           />
-  //         </Grid>
-
-  //         <Grid item display="flex" sx={{ marginTop: theme.spacing(0.5) }}>
-  //           <Typography
-  //             variant="caption"
-  //             sx={{ color: "gray", marginLeft: theme.spacing(1) }}
-  //           >
-  //             {moment(commentData.createdAt).fromNow()}
-  //           </Typography>
-  //         </Grid>
-  //       </Grid>
-  //     </Box>
-  //   )
-
   return (
     <Box display="flex">
       <Box
@@ -386,10 +329,10 @@ const Comment: React.FC<{
               </>
             )}
             {commentData.comments.map((com) => (
-              <>
+              <React.Fragment key={com._id}>
                 <Divider />
                 <Comment commentData={com} postId={postId} />
-              </>
+              </React.Fragment>
             ))}
           </Accordion>
         </Grid>

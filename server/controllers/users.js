@@ -28,7 +28,7 @@ export const signIn = async (req, res) => {
         email: existingUser.email,
         id: existingUser._id,
       },
-      "jwt",
+      "account",
       { expiresIn: "1hr" }
     )
 

@@ -40,7 +40,7 @@ export const makePost = createAsyncThunk(
     const formData = d
     try {
       const { data } = await api.makePost(formData)
-
+      
       return data
     } catch (error) {
       console.log(error)
