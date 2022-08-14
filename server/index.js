@@ -27,10 +27,6 @@ app.use("/comments", commentsRoutes)
 //server port
 const PORT = process.env.PORT || 8000
 
-app.get("/", (req, res) => {
-  res.send("App is running")
-})
-
 //mongoDB Atlas
 mongoose
   .connect(process.env.CONNECTION_URL, {
